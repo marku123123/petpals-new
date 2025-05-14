@@ -48,8 +48,8 @@ const LostDogFormConfirmation = ({
   const newChatsCount = useChatCount();
 
   // Define API URL constants
-  const NEW_POSTS_API_URL = "http://10.0.2.2:5000/api/posts/new-posts-count";
-  const LOST_DOG_API_URL = "http://10.0.2.2:5000/api/lostdog";
+  const NEW_POSTS_API_URL = "http://192.168.1.20:5000/api/posts/new-posts-count";
+  const LOST_DOG_API_URL = "http://192.168.1.20:5000/api/lostdog";
 
   useEffect(() => {
     const fetchNewPostsCount = async () => {
@@ -298,7 +298,7 @@ const LostDogFormConfirmation = ({
             source={require("../assets/images/back-arrow.png")}
             style={styles.backArrow}
           />
-          <Text style={styles.backText}>Back to form</Text>
+          <Text style={styles.backText}>Go back to form</Text>
         </TouchableOpacity>
         {/* -----------------------------------------------------------------------------------------------------*/}
 

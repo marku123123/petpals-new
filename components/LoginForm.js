@@ -20,7 +20,7 @@ const LoginForm = ({ onSignUpClick, onLoginSuccess }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   // For Android emulator use 103.106.67.162, for iOS simulator use localhost
-  const API_URL = "http://10.0.2.2:5000/api/login/login";
+  const API_URL = "http://192.168.1.20:5000/api/login/login";
 
   const handleLoginSubmit = async () => {
     setErrorMessage("");

@@ -26,11 +26,11 @@ const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     origin: [
-      "http://10.0.2.2:3000",
-      "http://10.0.2.2:8081",
-      "http://10.0.2.2:8080",
-      "http://10.0.2.2:8081",
-      "http://10.0.2.2:5000", // Add this for emulator
+      "http://192.168.1.20:3000",
+      "http://192.168.1.20:8081",
+      "http://192.168.1.20:8080",
+      "http://192.168.1.20:8081",
+      "http://192.168.1.20:5000", // Add this for emulator
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
@@ -47,11 +47,11 @@ app.use(fileUpload());
 const corsOptions = {
   origin: (origin, callback) => {
     const allowedOrigins = [
-      "http://10.0.2.2:3000",
-      "http://10.0.2.2:8081",
-      "http://10.0.2.2:8080",
-      "http://10.0.2.2:8081",
-      "http://10.0.2.2:5000", // Add this for emulator
+      "http://192.168.1.20:3000",
+      "http://192.168.1.20:8081",
+      "http://192.168.1.20:8080",
+      "http://192.168.1.20:8081",
+      "http://192.168.1.20:5000", // Add this for emulator
     ];
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);

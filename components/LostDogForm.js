@@ -44,10 +44,16 @@ const LostDogForm = ({
   const [imageError, setImageError] = useState("");
   const newChatsCount = useChatCount();
 
+  const [isFocused, setIsFocused] = useState(false);
+  const handleFocus = () => setIsFocused(true);
+  const handleBlur = () => setTimeout(() => setIsFocused(false), 100);
+
+
+
   const locationiqKey = "pk.0ee70983b8d94b132991d9b76b73102e";
   const debounceTimeout = useRef(null);
 
-  const NEW_POSTS_API_URL = "http://10.0.2.2:5000/api/posts/new-posts-count";
+  const NEW_POSTS_API_URL = "http://192.168.1.20:5000/api/posts/new-posts-count";
 
   useEffect(() => {
     const fetchNewPostsCount = async () => {
@@ -139,23 +145,23 @@ const LostDogForm = ({
     setImageError("");
 
     if (!dogName) {
-      setNameError("Please enter your dog's name.");
+      setNameError("Please enter dog's name.");
       return;
     }
     if (!dogBreed) {
-      setBreedError("Please enter your dog's breed.");
+      setBreedError("Please enter the dog's breed.");
       return;
     }
     if (!dogSize) {
-      setSizeError("Please enter your dog's size.");
+      setSizeError("Please enter the dog's size.");
       return;
     }
     if (!gender) {
-      setGenderError("Please select your dog's gender.");
+      setGenderError("Please select the dog's gender.");
       return;
     }
     if (!location) {
-      setLocationError("Please enter where your dog was last seen.");
+      setLocationError("Please enter where the dog was last seen.");
       return;
     }
     if (!selectedImage) {
@@ -224,7 +230,7 @@ const LostDogForm = ({
     if (status !== "granted") {
       Alert.alert(
         "Permission Denied",
-        "Please allow access to your photos to upload a dog picture."
+        "Please allow access to the photos to upload a dog picture."
       );
       return;
     }
@@ -241,6 +247,7 @@ const LostDogForm = ({
       setImageError("");
     }
   };
+
 
 
   return (
@@ -327,6 +334,8 @@ const LostDogForm = ({
             />
             <Text style={styles.mainTitle}>Back</Text>
           </TouchableOpacity>
+          <View style={{ marginTop: 15}}>
+          </View>
           {/* --------------------------------------------------------------------------------------------------------------------------- */}
           <View style={styles.imageUploadContainer}>
             <TouchableOpacity onPress={handleImageUpload}>
@@ -342,7 +351,7 @@ const LostDogForm = ({
                   }
                   resizeMode="cover"
                 />
-                <Text style={styles.menuTexts}>Upload picture of your dog.</Text>
+                <Text style={styles.menuTexts}>Upload image of your dog</Text>
               </View>
             </TouchableOpacity>
             {imageError ? (
@@ -350,7 +359,7 @@ const LostDogForm = ({
             ) : null}
           </View>
 
-          <Text style={styles.label}>Name of dog:</Text>
+          <Text style={styles.label}>Name:</Text>
           <TextInput
             style={styles.input}
             placeholder="Enter dog's name"
@@ -362,7 +371,7 @@ const LostDogForm = ({
           />
           {nameError ? <Text style={styles.errorText}>{nameError}</Text> : null}
 
-          <Text style={styles.label}>Breed of dog:</Text>
+          <Text style={styles.label}>Breed:</Text>
           <TextInput
             style={styles.input}
             placeholder="Enter dog's breed"
@@ -376,10 +385,10 @@ const LostDogForm = ({
             <Text style={styles.errorText}>{breedError}</Text>
           ) : null}
 
-          <Text style={styles.label}>Size of dog:</Text>
+          <Text style={styles.label}>Size: <Text style={styles.textHints}>(Small, Medium, Huge)</Text></Text>
           <TextInput
             style={styles.input}
-            placeholder="Enter dog's size (Ex. small, medium, huge size)"
+            placeholder="Enter dog's size"
             value={dogSize}
             onChangeText={(text) => {
               setDogSize(text);
@@ -391,7 +400,7 @@ const LostDogForm = ({
           <Text style={styles.label}>Additional details:</Text>
           <TextInput
             style={styles.input}
-            placeholder="Enter other details. (this is optional)"
+            placeholder="Enter other details (this is optional)"
             value={otherDetails}
             onChangeText={setAdditionalDetails}
             multiline
@@ -410,10 +419,7 @@ const LostDogForm = ({
                 setGenderError("");
               }}
             >
-              <Image
-                source={require("../assets/images/male-icon.png")}
-                style={styles.genderIcon}
-              />
+
               <Text
                 style={[
                   styles.genderText,
@@ -422,6 +428,10 @@ const LostDogForm = ({
               >
                 Male
               </Text>
+              <Image
+                source={require("../assets/images/male-icon.png")}
+                style={styles.genderIcon}
+              />
             </TouchableOpacity>
             <TouchableOpacity
               style={[
@@ -433,10 +443,7 @@ const LostDogForm = ({
                 setGenderError("");
               }}
             >
-              <Image
-                source={require("../assets/images/female-icon.png")}
-                style={styles.genderIcon}
-              />
+
               <Text
                 style={[
                   styles.genderText,
@@ -445,6 +452,10 @@ const LostDogForm = ({
               >
                 Female
               </Text>
+              <Image
+                source={require("../assets/images/female-icon.png")}
+                style={styles.genderIcon}
+              />
             </TouchableOpacity>
           </View>
           {genderError ? (
@@ -453,13 +464,15 @@ const LostDogForm = ({
 
           <Text style={styles.label}>Location:</Text>
           <View style={styles.locationInputContainer}>
+            {/* 
             <Image
               source={require("../assets/images/location-icon.png")}
               style={styles.locationIcon}
             />
+            */}
             <TextInput
-              style={styles.locationInput}
-              placeholder="Enter last seen location."
+              style={styles.input}
+              placeholder="Enter last seen location"
               value={location}
               onChangeText={handleLocationChange}
             />
@@ -467,21 +480,24 @@ const LostDogForm = ({
           {locationError ? (
             <Text style={styles.errorText}>{locationError}</Text>
           ) : null}
-
           <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
             <Text style={styles.submitButtonText}>SUBMIT</Text>
           </TouchableOpacity>
+          {/* ------------------------------------------ addSpace --------------------------- */}
+          <View style={{ marginTop: 5 }}>
+          </View>
         </ScrollView>
-
+        {/* ------------------------------------------ Location suggestions --------------------------- */}
         {suggestions.length > 0 && (
-          <View style={styles.suggestionsContainer}>
+          <View style={styles.locationSuggestionContainer}>
+            <Text style={styles.suggestionTextTitle}>Choose location</Text>
             <FlatList
               data={suggestions}
               keyExtractor={(item) => item.data.osm_id.toString()}
               renderItem={({ item }) => (
                 <TouchableOpacity
                   style={styles.suggestionItem}
-                  onPress={() => handleSuggestionSelect(item)}
+                  onChangeText={() => handleSuggestionSelect(item)}
                 >
                   <Text style={styles.suggestionText}>{item.value}</Text>
                 </TouchableOpacity>
@@ -490,7 +506,6 @@ const LostDogForm = ({
           </View>
         )}
       </View>
-
 
 
       <View style={styles.footer}>
@@ -569,7 +584,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "#ccc",
   },
   menuText: { fontSize: 16, color: "#000" },
-  menuTexts: { fontSize: 16, color: "#000", marginLeft: -20, alignSelf: "center" },
+  menuTexts: { fontSize: 14, color: "#000", marginLeft: -20, alignItems: "center" },
   navBar: {
     flexDirection: "row",
     justifyContent: "space-around",
@@ -605,19 +620,20 @@ const styles = StyleSheet.create({
   },
   selectedImageIcon: {
     width: 200,
-    height: 300,
+    height: 200,
     borderWidth: 1,
     borderColor: "#ccc",
     borderRadius: 5,
   },
-  label: { fontSize: 16, marginBottom: 8, color: "#333" },
+  label: { fontSize: 15, marginBottom: 8, color: "#333" },
+  textHints: { fontSize: 14.5, marginBottom: 8, color: "#808080" },
   input: {
     borderWidth: 1,
     borderColor: "#ccc",
     borderRadius: 5,
     padding: 10,
     marginBottom: 5,
-    fontSize: 16,
+    fontSize: 14.5,
     backgroundColor: "#FFF",
     width: "100%",
   },
@@ -639,39 +655,37 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   genderButtonSelected: { backgroundColor: "#D3D3D3" },
-  genderIcon: { width: 24, height: 24, tintColor: "#333", marginRight: 5 },
-  genderText: { fontSize: 16, color: "#333" },
+  genderIcon: { width: 22, height: 22, tintColor: "#333", marginLeft: 5 },
+  genderText: { fontSize: 15, color: "#333" },
   genderTextSelected: { color: "#000", fontWeight: "bold" },
   locationInputContainer: {
     flexDirection: "row",
     alignItems: "center",
-    borderWidth: 1,
     borderColor: "#ccc",
     borderRadius: 5,
     marginBottom: 5,
-    backgroundColor: "#FFF",
+    //backgroundColor: "#FFF",
     width: "100%",
   },
-  locationIcon: { width: 24, height: 24, marginLeft: 10, tintColor: "#333" },
-  locationInput: { flex: 1, padding: 10, fontSize: 16 },
-  suggestionsContainer: {
-    position: "absolute",
-    top: 540, // Adjust this based on your layout
-    left: 15,
-    right: 15,
-    backgroundColor: "#FFF",
+  //locationIcon: { width: 24, height: 24, marginLeft: 10, tintColor: "#333" },
+  // ----------------------------------- Map api suggestions container -----------------------------------
+  locationSuggestionContainer: {
+    position: "relative",
+    //top: 540, // Adjust this based on the layout
+    marginLeft: 15,
+    marginRight: 15,
+    backgroundColor: "#fff",
     borderWidth: 1,
     borderColor: "#ccc",
     borderRadius: 5,
-    maxHeight: 150,
+    maxHeight: 188.5,
     zIndex: 1000,
   },
   suggestionItem: {
     padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#eee",
   },
-  suggestionText: { fontSize: 14, color: "#333" },
+  suggestionText: { fontSize: 14, color: "#333", },
+  suggestionTextTitle: { fontSize: 15, textAlign: "center", padding: 5, borderBottomWidth: 1, borderBottomColor: "#eee", width: "100%", color: "#808080", },
   submitButton: {
     backgroundColor: "#664229",
     padding: 15,
@@ -680,7 +694,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     width: "100%",
   },
-  submitButtonText: { fontSize: 18, color: "#fff", fontWeight: "bold" },
+  submitButtonText: { fontSize: 18, color: "#fff", fontWeight: "bold", },
   footer: {
     flexDirection: "row",
     justifyContent: "space-around",

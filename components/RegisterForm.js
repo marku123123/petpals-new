@@ -32,7 +32,7 @@ const RegisterForm = ({ onLoginClick }) => {
   const [loading, setLoading] = useState(false);
 
   // For Android emulator use 103.106.67.162, for iOS simulator use localhost
-  const API_URL = "http://10.0.2.2:5000/api/register/register";
+  const API_URL = "http://192.168.1.20:5000/api/register/register";
 
   const handleImageUpload = async () => {
     try {
@@ -79,11 +79,7 @@ const RegisterForm = ({ onLoginClick }) => {
     const isValidEmail = validDomains.some((domain) =>
       email.toLowerCase().endsWith(domain)
     );
-    if (!isValidEmail) {
-      setError("Email must be from yahoo.com, gmail.com, or hotmail.com.");
-      setLoading(false);
-      return;
-    }
+  
      // Basic validation
     if (
       !username ||
@@ -94,6 +90,11 @@ const RegisterForm = ({ onLoginClick }) => {
       !confirmPassword
     ) {
       setError("All fields are required!");
+      setLoading(false);
+      return;
+    }
+      if (!isValidEmail) {
+      setError("Email must be from yahoo.com, gmail.com, or hotmail.com.");
       setLoading(false);
       return;
     }

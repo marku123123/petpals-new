@@ -34,7 +34,7 @@ const LostDogPage = ({
   const newChatsCount = useChatCount();
 
   // Define API URL constants (NEW)
-  const BASE_URL = "http://10.0.2.2:5000";
+  const BASE_URL = "http://192.168.1.20:5000";
   const LOST_DOG_API_URL = `${BASE_URL}/api/lostdog`;
   const NEW_POSTS_API_URL = `${BASE_URL}/api/posts/new-posts-count`;
   const SOCKET_URL = BASE_URL;
@@ -191,7 +191,7 @@ const LostDogPage = ({
             style={styles.navButton}
             onPress={() => handleTabClick("HomePageLostDog")}
           >
-            <Text style={styles.navTexts}>Lost Dog Page</Text>
+            <Text style={styles.navText}>Lost Dog Page</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.navButton}
@@ -287,7 +287,7 @@ const LostDogPage = ({
             </View>
           ))
         ) : (
-          <Text style={styles.noDataText}>
+          <Text style={styles.noDataTextError}>
             {searchQuery
               ? "No matching dogs found."
               : "No lost dogs reported yet."}
@@ -404,10 +404,7 @@ const styles = StyleSheet.create({
   },
   navBar: {
     backgroundColor: "#664229",
-    paddingVertical: 10,
-    paddingHorizontal: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#333",
+    padding: 8,
   },
   navButton: {
     paddingHorizontal: 15,
@@ -417,13 +414,7 @@ const styles = StyleSheet.create({
   navText: {
     color: "#fff",
     fontSize: 14,
-    fontWeight: "600",
-  },
-  navTexts: {
-    color: "#fff",
-    fontSize: 14,
-    fontWeight: "600",
-    textDecorationLine: "underline",
+    fontWeight: "400",
   },
   searchContainer: {
     paddingHorizontal: 15,
@@ -431,10 +422,9 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     backgroundColor: "#fff",
-    borderRadius: 20,
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-    fontSize: 16,
+    borderRadius: 10,
+    padding: 8,
+    fontSize: 15,
     color: "#333",
     borderWidth: 1,
     borderColor: "#ddd",
@@ -543,11 +533,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
-  noDataText: {
-    fontSize: 18,
+  noDataTextError: {
+    fontSize: 15,
     color: "#666",
     textAlign: "center",
-    padding: 20,
+    justifyContent: "center",
+    alignItems: "center",
   },
   footer: {
     flexDirection: "row",
