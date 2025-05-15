@@ -13,14 +13,14 @@ import LostDogPage from "../../components/LostDogPage";
 import FoundDogForm from "../../components/FoundDogForm";
 import FoundDogFormConfirmation from "../../components/FoundDogFormConfirmation";
 import FoundDogPage from "../../components/FoundDogPage";
-import LostAndFoundDogMatched from "../../components/LostAndFoundDogMatched";
+import MatchPage from "../../components/MatchPage";
 import ChatForum from "../../components/ChatForum";
 import PrivateChat from "../../components/PrivateChat";
 import LostDogPageMoreInfo from "../../components/LostDogPageMoreInfo";
 import FoundDogViewUserInfo from "../../components/FoundDogViewUserInfo";
 import LostAndFoundViewMatchedUser from "../../components/LostAndFoundViewMatchedUser";
 import LostAndFoundViewMatchedUserS from "../../components/LostAndFoundViewMatchedUserS";
-import ViewLostAndFoundSuggestions from "../../components/ViewLostAndFoundSuggestions";
+import SuggestionsPage from "../../components/SuggestionsPage";
 import SuggestionsForm from "../../components/SuggestionsForm";
 import ProtectedRoute from "../../components/utils/ProtectedRoute";
 
@@ -57,14 +57,14 @@ const App = () => {
     | "FoundDogForm"
     | "FoundDogFormConfirmation"
     | "FoundDogPage"
-    | "LostAndFoundDogMatched"
+    | "MatchPage"
     | "ChatForum"
     | "PrivateChat"
     | "LostDogPageMoreInfo"
     | "FoundDogViewUserInfo"
     | "LostAndFoundViewMatchedUser"
     | "LostAndFoundViewMatchedUserS"
-    | "ViewLostAndFoundSuggestions"
+    | "SuggestionsPage"
     | "SuggestionsForm"
   >("HomePage");
   const [formData, setFormData] = useState<FormData | null>(null);
@@ -130,8 +130,8 @@ const App = () => {
     setFormData(null);
   };
 
-  const navigateToLostAndFoundDogMatched = () => {
-    setCurrentScreen("LostAndFoundDogMatched");
+  const navigateToMatchPage = () => {
+    setCurrentScreen("MatchPage");
   };
 
   const navigateToLostAndFoundViewMatchedUser = (dog: any) => {
@@ -169,7 +169,7 @@ const App = () => {
   };
 
   const navigateToMatchedPage = () => {
-    setCurrentScreen("LostAndFoundDogMatched");
+    setCurrentScreen("MatchPage");
     setFormData(null);
     setSelectedDog(null);
   };
@@ -197,9 +197,9 @@ const App = () => {
     setCurrentScreen("LostDogPageMoreInfo");
   };
 
-  const navigateToViewLostAndFoundSuggestions = (data?: SuggestionData) => {
+  const navigateToSuggestionsPage = (data?: SuggestionData) => {
     setNewSuggestion(data || null);
-    setCurrentScreen("ViewLostAndFoundSuggestions");
+    setCurrentScreen("SuggestionsPage");
     setFormData(null);
     setSelectedDog(null);
     setReloadTrigger((prev) => prev + 1);
@@ -242,7 +242,7 @@ const App = () => {
             onNavigateToMatchedPage={navigateToMatchedPage}
             onNavigateToFoundDogPage={navigateToFoundDogPage}
             onNavigateToChatForum={navigateToChatForum}
-            onNavigateToViewLostAndFoundSuggestions={navigateToViewLostAndFoundSuggestions}
+            onNavigateToSuggestionsPage={navigateToSuggestionsPage}
           />
         ) : currentScreen === "UserProfile" ? (
           <ProtectedRoute
@@ -291,7 +291,7 @@ const App = () => {
             onNavigateToFoundDogPage={navigateToFoundDogPage}
             onNavigateToChatForum={navigateToChatForum}
             onNavigateToLostDogPageMoreInfo={navigateToLostDogPageMoreInfo}
-            onNavigateToViewLostAndFoundSuggestions={navigateToViewLostAndFoundSuggestions}
+            onNavigateToSuggestionsPage={navigateToSuggestionsPage}
           />
         ) : currentScreen === "FoundDogForm" ? (
           <ProtectedRoute
@@ -331,11 +331,11 @@ const App = () => {
             onNavigateToLostDogPage={navigateToLostDogPage}
             onNavigateToChatForum={navigateToChatForum}
             onNavigateToFoundDogViewUserInfo={navigateToFoundDogViewUserInfo}
-            onNavigateToViewLostAndFoundSuggestions={navigateToViewLostAndFoundSuggestions}
+            onNavigateToSuggestionsPage={navigateToSuggestionsPage}
           />
-        ) : currentScreen === "LostAndFoundDogMatched" ? (
+        ) : currentScreen === "MatchPage" ? (
           <ProtectedRoute
-            component={LostAndFoundDogMatched}
+            component={MatchPage}
             onSignUpClick={handleSignUpClick}
             onLoginSuccess={handleLoginSuccess}
             onNavigateToHome={navigateToHome}
@@ -347,7 +347,7 @@ const App = () => {
             onNavigateToLostDogPageMoreInfo={navigateToLostDogPageMoreInfo}
             onNavigateToLostAndFoundViewMatchedUser={navigateToLostAndFoundViewMatchedUser}
             onNavigateToLostAndFoundViewMatchedUserS={navigateToLostAndFoundViewMatchedUserS}
-            onNavigateToViewLostAndFoundSuggestions={navigateToViewLostAndFoundSuggestions}
+            onNavigateToSuggestionsPage={navigateToSuggestionsPage}
             onNavigateToSuggestionsForm={navigateToSuggestionsForm}
           />
         ) : currentScreen === "ChatForum" ? (
@@ -406,7 +406,7 @@ const App = () => {
             onLoginSuccess={handleLoginSuccess}
             onNavigateToHome={navigateToHome}
             onNavigateToProfile={navigateToProfile}
-            onNavigateToLostAndFoundDogMatched={navigateToLostAndFoundDogMatched}
+            onNavigateToMatchPage={navigateToMatchPage}
             onLogout={handleLogout}
             onNavigateToChatForum={navigateToChatForum}
             dog={selectedDog}
@@ -418,14 +418,14 @@ const App = () => {
             onLoginSuccess={handleLoginSuccess}
             onNavigateToHome={navigateToHome}
             onNavigateToProfile={navigateToProfile}
-            onNavigateToLostAndFoundDogMatched={navigateToLostAndFoundDogMatched}
+            onNavigateToMatchPage={navigateToMatchPage}
             onLogout={handleLogout}
             onNavigateToChatForum={navigateToChatForum}
             dog={selectedDog}
           />
-        ) : currentScreen === "ViewLostAndFoundSuggestions" ? (
+        ) : currentScreen === "SuggestionsPage" ? (
           <ProtectedRoute
-            component={ViewLostAndFoundSuggestions}
+            component={SuggestionsPage}
             onSignUpClick={handleSignUpClick}
             onLoginSuccess={handleLoginSuccess}
             onNavigateToHome={navigateToHome}
@@ -448,7 +448,7 @@ const App = () => {
             onNavigateToLostDogPage={navigateToLostDogPage}
             onNavigateToFoundDogPage={navigateToFoundDogPage}
             onNavigateToChatForum={navigateToChatForum}
-            onNavigateToViewLostAndFoundSuggestions={navigateToViewLostAndFoundSuggestions}
+            onNavigateToSuggestionsPage={navigateToSuggestionsPage}
             onBackClick={handleLogout}
           />
         ) : null

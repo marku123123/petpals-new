@@ -16,11 +16,11 @@ import useChatCount from "./hooks/useChatCount";
 import NotificationModal from "./NotificationModal";
 
 // Define API URL constants
-const BASE_URL = "http://192.168.1.11:5000";
+const BASE_URL = "http://192.168.1.20:5000";
 const NEW_POSTS_API_URL = `${BASE_URL}/api/posts/new-posts-count`;
 const SUGGESTIONS_API_URL = `${BASE_URL}/api/suggestions`;
 
-const ViewLostAndFoundSuggestions = ({
+const SuggestionsPage = ({
   onNavigateToHome,
   onNavigateToProfile,
   onLogout,
@@ -113,13 +113,15 @@ const ViewLostAndFoundSuggestions = ({
   const closeModal = () => setIsModalOpen(false);
 
   const handleSubmitSuggestion = async () => {
+    
     if (!suggestionText.trim()) {
-      setSuccessMessage("Please enter a suggestion!");
+      setSuccessMessage("Please enter a suggestion.");
       setTimeout(() => setSuccessMessage(null), 3000);
       return;
     }
+    
     if (rating === 0) {
-      setSuccessMessage("Please select a rating!");
+      setSuccessMessage("Please select a rating.");
       setTimeout(() => setSuccessMessage(null), 3000);
       return;
     }
@@ -225,80 +227,85 @@ const ViewLostAndFoundSuggestions = ({
             style={styles.navButton}
             onPress={() => handleTabClick("HomePageMatched")}
           >
-            <Text style={styles.navText}>Matched Page</Text>
+            <Text style={styles.navText}>Match Page</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.navButton}
             onPress={() => handleTabClick("HomePageSuggestions")}
           >
-            <Text style={styles.navTexts}>View Suggestions</Text>
+            <Text style={styles.navTextActive}>View Suggestions</Text>
           </TouchableOpacity>
         </ScrollView>
       </View>
 
-      {/* Suggestion Input Section */}
+      {/* ------------------------------------------- Main container ----------------------------------------*/}
       <View style={styles.suggestionInputContainer}>
+        {/* ------------------------------------------- second container ----------------------------------------*/}
+        <View style={styles.ratingInputContainer}>
+          <Text style={styles.ratingLabel}>Rate our app: </Text>
+          {[1, 2, 3, 4, 5, 6].map((starIndex) => (
+            <TouchableOpacity
+              key={starIndex}
+              onPress={() => handleStarPress(starIndex)}
+            >
+              <Text
+                style={[
+                  styles.star,
+                  starIndex <= rating && styles.starSelected,
+                ]}
+              >
+                ★
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+           
         <View style={styles.suggestionInputWrapper}>
+       
           <TextInput
             style={styles.suggestionInput}
-            placeholder="Suggestion comment..."
-            placeholderTextColor="#666"
+            placeholder="Comment suggestions here."
+            placeholderTextColor="#808080"
             value={suggestionText}
             onChangeText={setSuggestionText}
             multiline
             maxLength={200}
           />
-          <View style={styles.ratingInputContainer}>
-            <Text style={styles.ratingLabel}>Rate: </Text>
-            {[1, 2, 3, 4, 5, 6].map((starIndex) => (
-              <TouchableOpacity
-                key={starIndex}
-                onPress={() => handleStarPress(starIndex)}
-              >
-                <Text
-                  style={[
-                    styles.star,
-                    starIndex <= rating && styles.starSelected,
-                  ]}
-                >
-                  ★
-                </Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-        </View>
-        <TouchableOpacity
-          style={[
-            styles.submitButton,
-            isSubmitting && styles.submitButtonDisabled,
-          ]}
-          onPress={handleSubmitSuggestion}
-          disabled={isSubmitting}
-        >
-          <Text style={styles.submitButtonText}>
-            {isSubmitting ? "Submitting..." : "Submit"}
-          </Text>
-        </TouchableOpacity>
-        {successMessage && (
-          <Text
+
+          {successMessage && (
+            <Text
+              style={[
+                styles.successMessage,
+                successMessage.includes("Please") ||
+                  successMessage.includes("Failed") ||
+                  successMessage.includes("logged in")
+                  ? styles.errorMessage
+                  : null,
+              ]}
+            >
+              {successMessage}
+            </Text>
+          )}
+          {/* -------------------------------------------- Submit Button -----------------------------------------*/}
+          <TouchableOpacity
             style={[
-              styles.successMessage,
-              successMessage.includes("Please") ||
-              successMessage.includes("Failed") ||
-              successMessage.includes("logged in")
-                ? styles.errorMessage
-                : null,
+              styles.submitButton,
+              isSubmitting && styles.submitButtonDisabled,
             ]}
+            onPress={handleSubmitSuggestion}
+            disabled={isSubmitting}
           >
-            {successMessage}
-          </Text>
-        )}
+            <Text style={styles.submitButtonText}>
+              {isSubmitting ? "Processing..." : "Submit"}
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       {/* Content */}
       <ScrollView contentContainerStyle={styles.content}>
         {suggestions.length === 0 ? (
-          <Text style={styles.placeholderText}>No suggestions yet.</Text>
+          <Text style={styles.noDataText}>No suggestions yet.</Text>
         ) : (
           suggestions.map((suggestion, index) => {
             const createdAt = new Date(suggestion.createdAt);
@@ -417,22 +424,30 @@ const styles = StyleSheet.create({
     borderBottomColor: "#ddd",
   },
   menuText: { fontSize: 18, color: "#000" },
+ // ------------------------- Navbar --------------------
   navBar: {
     backgroundColor: "#664229",
-    paddingVertical: 10,
-    paddingHorizontal: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#333",
+    padding: 8,
   },
-  navButton: { paddingHorizontal: 15, paddingVertical: 10, marginRight: 10 },
-  navText: { color: "#fff", fontSize: 14, fontWeight: "600" },
-  navTexts: {
+  navButton: {
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    marginRight: 10,
+  },
+  navText: {
+    color: "#fff",
+    fontSize: 14,
+    fontWeight: "400",
+  },
+  navTextActive: {
     color: "#fff",
     fontSize: 14,
     fontWeight: "600",
     textDecorationLine: "underline",
   },
+  // ----------------------------------------------------
   suggestionInputContainer: {
+    // ------------------------- Main box ---------------------
     padding: 15,
     backgroundColor: "#fff",
     borderBottomWidth: 1,
@@ -441,20 +456,19 @@ const styles = StyleSheet.create({
     marginTop: 10,
     borderRadius: 10,
     width: 380,
-    height: 220,
+    height: 250,
   },
   suggestionInputWrapper: {
+    // ------------------------- Second box ---------------------
     backgroundColor: "#fff",
     padding: 10,
     borderRadius: 10,
-    marginBottom: 5,
     marginHorizontal: 20,
-    elevation: 3,
+    elevation: 10,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 5,
-    height: 130,
   },
   suggestionInput: {
     backgroundColor: "#f5f5f5",
@@ -471,6 +485,8 @@ const styles = StyleSheet.create({
   ratingInputContainer: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 10,
   },
   ratingLabel: {
     fontSize: 16,
@@ -481,20 +497,22 @@ const styles = StyleSheet.create({
   starSelected: { color: "#FFD700" },
   submitButton: {
     backgroundColor: "#664229",
-    paddingVertical: 5,
-    paddingHorizontal: 10,
+    padding: 10,
     borderRadius: 8,
-    alignSelf: "flex-end",
-    marginBottom: 5,
-  },
-  submitButtonDisabled: {
-    backgroundColor: "#cccccc",
+    alignSelf: "center",
+    marginTop: 5,
+    width: 200,
   },
   submitButtonText: {
     color: "#fff",
     fontSize: 16,
     fontWeight: "bold",
+    alignSelf: "center",
   },
+  submitButtonDisabled: {
+    backgroundColor: "#cccccc",
+  },
+
   successMessage: {
     fontSize: 14,
     color: "#006600",
@@ -505,8 +523,16 @@ const styles = StyleSheet.create({
     color: "#FF0000",
   },
   content: { flexGrow: 1, padding: 15 },
-  placeholderText: {
-    fontSize: 18,
+  noDataText: {
+    fontSize: 15,
+    color: "#666",
+    textAlign: "center",
+    textAlign: "center",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  noDataText: {
+    fontSize: 15,
     color: "#666",
     textAlign: "center",
     padding: 20,
@@ -557,4 +583,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ViewLostAndFoundSuggestions;
+export default SuggestionsPage;

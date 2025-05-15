@@ -24,12 +24,12 @@ import * as ImagePicker from "expo-image-picker";
 import md5 from "js-md5";
 
 // Define API URL constants
-const LOST_DOG_API_URL = "http://192.168.1.11:5000/api/lostdog";
-const FOUND_DOG_API_URL = "http://192.168.1.11:5000/api/founddog";
-const NEW_POSTS_API_URL = "http://192.168.1.11:5000/api/posts/new-posts-count";
-const LOST_FOUND_API_URL = "http://192.168.1.11:5000/api/lostfound";
-const BASE_API_URL = "http://192.168.1.11:5000";
-const SOCKET_URL = "http://192.168.1.11:5000";
+const LOST_DOG_API_URL = "http://192.168.1.20:5000/api/lostdog";
+const FOUND_DOG_API_URL = "http://192.168.1.20:5000/api/founddog";
+const NEW_POSTS_API_URL = "http://192.168.1.20:5000/api/posts/new-posts-count";
+const LOST_FOUND_API_URL = "http://192.168.1.20:5000/api/lostfound";
+const BASE_API_URL = "http://192.168.1.20:5000";
+const SOCKET_URL = "http://192.168.1.20:5000";
 
 const decodeJWT = (token) => {
   try {
@@ -48,7 +48,7 @@ const decodeJWT = (token) => {
   }
 };
 
-const LostAndFoundDogMatched = ({
+const MatchPage = ({
   onNavigateToHome,
   onNavigateToProfile,
   onLogout,
@@ -58,7 +58,7 @@ const LostAndFoundDogMatched = ({
   onNavigateToLostAndFoundViewMatchedUser,
   onNavigateToLostAndFoundViewMatchedUserS,
   onNavigateToSuggestionsForm,
-  onNavigateToViewLostAndFoundSuggestions,
+  onNavigateToSuggestionsPage,
 }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [dogs, setDogs] = useState([]);
@@ -348,8 +348,7 @@ const LostAndFoundDogMatched = ({
               }
             } catch (decodeError) {
               console.error(
-                `Primary decode failed for ${dog.petId} as ${
-                  isJpeg ? "JPEG" : "PNG"
+                `Primary decode failed for ${dog.petId} as ${isJpeg ? "JPEG" : "PNG"
                 }:`,
                 decodeError.message
               );
@@ -502,8 +501,8 @@ const LostAndFoundDogMatched = ({
     if (tab === "HomePageLostDog") onNavigateToLostDogPage?.();
     else if (tab === "HomePageFoundDog") onNavigateToFoundDogPage?.();
     else if (tab === "HomePageSuggestions") onNavigateToSuggestionsForm?.();
-    else if (tab === "ViewLostAndFoundSuggestions")
-      onNavigateToViewLostAndFoundSuggestions?.();
+    else if (tab === "SuggestionsPage")
+      onNavigateToSuggestionsPage?.();
   };
 
   const handleMessageClick = () => onNavigateToChatForum?.();
@@ -544,9 +543,8 @@ const LostAndFoundDogMatched = ({
     } else {
       const shortList = matchedPetIds.slice(0, 2);
       return {
-        shortMessage: `Pet ID #${
-          dog.petId
-        } is matched with Pet ID #${shortList.join(" and #")} and more...`,
+        shortMessage: `Pet ID #${dog.petId
+          } is matched with Pet ID #${shortList.join(" and #")} and more...`,
         fullList: matchedPetIds,
       };
     }
@@ -859,11 +857,11 @@ const LostAndFoundDogMatched = ({
             style={styles.navButton}
             onPress={() => handleTabClick("HomePageMatched")}
           >
-            <Text style={styles.navTexts}>Matched Page</Text>
+            <Text style={styles.navTextActive}>Match Page</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.navButton}
-            onPress={() => handleTabClick("ViewLostAndFoundSuggestions")}
+            onPress={() => handleTabClick("SuggestionsPage")}
           >
             <Text style={styles.navText}>View Suggestions</Text>
           </TouchableOpacity>
@@ -873,7 +871,7 @@ const LostAndFoundDogMatched = ({
       <View style={styles.searchContainer}>
         <TextInput
           style={styles.searchInput}
-          placeholder="Search by Name, Location, Breed, or Gender..."
+          placeholder="Search by Name, Location, Breed, or Gender"
           value={searchQuery}
           onChangeText={setSearchQuery}
           placeholderTextColor="#666"
@@ -898,8 +896,8 @@ const LostAndFoundDogMatched = ({
                           editedDog.image
                             ? { uri: editedDog.image.uri }
                             : dog.imagePath
-                            ? { uri: `${BASE_API_URL}${dog.imagePath}` }
-                            : require("../assets/images/dog-icon.png")
+                              ? { uri: `${BASE_API_URL}${dog.imagePath}` }
+                              : require("../assets/images/dog-icon.png")
                         }
                         style={styles.cardImage}
                       />
@@ -1119,8 +1117,8 @@ const LostAndFoundDogMatched = ({
                       source={
                         selectedNewMatch.dog1?.imagePath
                           ? {
-                              uri: `${BASE_API_URL}${selectedNewMatch.dog1.imagePath}`,
-                            }
+                            uri: `${BASE_API_URL}${selectedNewMatch.dog1.imagePath}`,
+                          }
                           : require("../assets/images/dog-icon.png")
                       }
                       style={styles.newMatchModalImage}
@@ -1131,8 +1129,8 @@ const LostAndFoundDogMatched = ({
                         {showFullName1
                           ? selectedNewMatch.dog1?.userId?.fullName || "Unknown"
                           : getFirstName(
-                              selectedNewMatch.dog1?.userId?.fullName
-                            )}
+                            selectedNewMatch.dog1?.userId?.fullName
+                          )}
                       </Text>
                       {!showFullName1 && (
                         <TouchableOpacity
@@ -1154,8 +1152,8 @@ const LostAndFoundDogMatched = ({
                       source={
                         selectedNewMatch.dog2?.imagePath
                           ? {
-                              uri: `${BASE_API_URL}${selectedNewMatch.dog2.imagePath}`,
-                            }
+                            uri: `${BASE_API_URL}${selectedNewMatch.dog2.imagePath}`,
+                          }
                           : require("../assets/images/dog-icon.png")
                       }
                       style={styles.newMatchModalImage}
@@ -1166,8 +1164,8 @@ const LostAndFoundDogMatched = ({
                         {showFullName2
                           ? selectedNewMatch.dog2?.userId?.fullName || "Unknown"
                           : getFirstName(
-                              selectedNewMatch.dog2?.userId?.fullName
-                            )}
+                            selectedNewMatch.dog2?.userId?.fullName
+                          )}
                       </Text>
                       {!showFullName2 && (
                         <TouchableOpacity
@@ -1322,33 +1320,44 @@ const styles = StyleSheet.create({
     borderBottomColor: "#ddd",
   },
   menuText: { fontSize: 18, color: "#000" },
+  // ------------------------- Navbar --------------------
   navBar: {
     backgroundColor: "#664229",
-    paddingVertical: 10,
-    paddingHorizontal: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#333",
+    padding: 8,
   },
-  navButton: { paddingHorizontal: 15, paddingVertical: 10, marginRight: 10 },
-  navText: { color: "#fff", fontSize: 14, fontWeight: "600" },
-  navTexts: {
+  navButton: {
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    marginRight: 10,
+  },
+  navText: {
+    color: "#fff",
+    fontSize: 14,
+    fontWeight: "400",
+  },
+  navTextActive: {
     color: "#fff",
     fontSize: 14,
     fontWeight: "600",
     textDecorationLine: "underline",
   },
-  searchContainer: { paddingHorizontal: 15, paddingVertical: 10 },
+  // ----------------------------------------------------
+  // ------------------------- Search Bar -------------------- //
+  searchContainer: {
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+  },
   searchInput: {
     backgroundColor: "#fff",
-    borderRadius: 20,
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-    fontSize: 16,
+    borderRadius: 10,
+    padding: 8,
+    fontSize: 15,
     color: "#333",
     borderWidth: 1,
     borderColor: "#ddd",
     elevation: 2,
   },
+  // ---------------------------------------------------- //
   content: { flexGrow: 1, padding: 15, alignItems: "center" },
   card: {
     backgroundColor: "#fff",
@@ -1459,7 +1468,14 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 5,
   },
-  noDataText: { fontSize: 18, color: "#666", textAlign: "center", padding: 20 },
+  noDataText: {
+    fontSize: 15,
+    color: "#666",
+    alignSelf: "center",
+    textAlign: "center",
+    justifyContent: "center",
+    alignItems: "center",
+  },
   footer: {
     flexDirection: "row",
     justifyContent: "space-around",
@@ -1671,4 +1687,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LostAndFoundDogMatched;
+export default MatchPage;

@@ -33,7 +33,7 @@ router.post("/login", async (req, res) => {
     if (user.banned) {
       return res.status(403).json({
         success: false,
-        message: "Account banned. Please contact support."
+        message: "Your account is banned. Please contact support."
       });
     }
 
@@ -42,7 +42,7 @@ router.post("/login", async (req, res) => {
     if (!isMatch) {
       return res.status(401).json({
         success: false,
-        message: "Invalid credentials"
+        message: "Invalid credentials."
       });
     }
 

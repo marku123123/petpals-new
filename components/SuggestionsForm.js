@@ -11,7 +11,7 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Define API URL constant
-const BASE_URL = "http://192.168.1.11:5000";
+const BASE_URL = "http://192.168.1.20:5000";
 
 const SuggestionsForm = ({
   onBackClick,
@@ -20,7 +20,7 @@ const SuggestionsForm = ({
   onNavigateToMatchedPage,
   onNavigateToFoundDogPage,
   onNavigateToChatForum,
-  onNavigateToViewLostAndFoundSuggestions,
+  onNavigateToSuggestionsPage,
 }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [suggestion, setSuggestion] = useState("");
@@ -57,10 +57,10 @@ const SuggestionsForm = ({
     } else if (tab === "HomePageFoundDog" && onNavigateToFoundDogPage) {
       onNavigateToFoundDogPage();
     } else if (
-      tab === "ViewLostAndFoundSuggestions" &&
-      onNavigateToViewLostAndFoundSuggestions
+      tab === "SuggestionsPage" &&
+      onNavigateToSuggestionsPage
     ) {
-      onNavigateToViewLostAndFoundSuggestions();
+      onNavigateToSuggestionsPage();
     }
   };
 
@@ -81,8 +81,8 @@ const SuggestionsForm = ({
         setSuggestion("");
         setRating(0);
         setTimeout(() => setSubmitStatus(null), 3000);
-        if (onNavigateToViewLostAndFoundSuggestions) {
-          onNavigateToViewLostAndFoundSuggestions();
+        if (onNavigateToSuggestionsPage) {
+          onNavigateToSuggestionsPage();
         }
       } else {
         throw new Error("Submission failed");
@@ -163,11 +163,11 @@ const SuggestionsForm = ({
           style={styles.navButton}
           onPress={() => handleTabClick("HomePageMatched")}
         >
-          <Text style={styles.navText}>Matched Page</Text>
+          <Text style={styles.navText}>Match Page</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.navButton}
-          onPress={() => handleTabClick("ViewLostAndFoundSuggestions")}
+          onPress={() => handleTabClick("SuggestionsPage")}
         >
           <Text style={styles.navText}>View Suggestions</Text>
         </TouchableOpacity>

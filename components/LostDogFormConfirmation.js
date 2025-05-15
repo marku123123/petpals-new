@@ -48,8 +48,8 @@ const LostDogFormConfirmation = ({
   const newChatsCount = useChatCount();
 
   // Define API URL constants
-  const NEW_POSTS_API_URL = "http://192.168.1.11:5000/api/posts/new-posts-count";
-  const LOST_DOG_API_URL = "http://192.168.1.11:5000/api/lostdog";
+  const NEW_POSTS_API_URL = "http://192.168.1.20:5000/api/posts/new-posts-count";
+  const LOST_DOG_API_URL = "http://192.168.1.20:5000/api/lostdog";
 
   useEffect(() => {
     const fetchNewPostsCount = async () => {

@@ -24,7 +24,7 @@ const LostDogPage = ({
   onNavigateToFoundDogPage,
   onNavigateToChatForum,
   onNavigateToLostDogPageMoreInfo,
-  onNavigateToViewLostAndFoundSuggestions,
+  onNavigateToSuggestionsPage,
 }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [lostDogs, setLostDogs] = useState([]);
@@ -34,7 +34,7 @@ const LostDogPage = ({
   const newChatsCount = useChatCount();
 
   // Define API URL constants (NEW)
-  const BASE_URL = "http://192.168.1.11:5000";
+  const BASE_URL = "http://192.168.1.20:5000";
   const LOST_DOG_API_URL = `${BASE_URL}/api/lostdog`;
   const NEW_POSTS_API_URL = `${BASE_URL}/api/posts/new-posts-count`;
   const SOCKET_URL = BASE_URL;
@@ -129,8 +129,8 @@ const LostDogPage = ({
   const handleTabClick = (tab) => {
     if (tab === "HomePageFoundDog") onNavigateToFoundDogPage?.();
     else if (tab === "HomePageMatched") onNavigateToMatchedPage?.();
-    else if (tab === "ViewLostAndFoundSuggestions")
-      onNavigateToViewLostAndFoundSuggestions?.();
+    else if (tab === "SuggestionsPage")
+      onNavigateToSuggestionsPage?.();
   };
 
   const handleMessageClick = () => onNavigateToChatForum?.();
@@ -191,7 +191,7 @@ const LostDogPage = ({
             style={styles.navButton}
             onPress={() => handleTabClick("HomePageLostDog")}
           >
-            <Text style={styles.navText}>Lost Dog Page</Text>
+            <Text style={styles.navTextActive}>Lost Dog Page</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.navButton}
@@ -203,11 +203,11 @@ const LostDogPage = ({
             style={styles.navButton}
             onPress={() => handleTabClick("HomePageMatched")}
           >
-            <Text style={styles.navText}>Matched Page</Text>
+            <Text style={styles.navText}>Match Page</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.navButton}
-            onPress={() => handleTabClick("ViewLostAndFoundSuggestions")}
+            onPress={() => handleTabClick("SuggestionsPage")}
           >
             <Text style={styles.navText}>View Suggestions</Text>
           </TouchableOpacity>
@@ -218,7 +218,7 @@ const LostDogPage = ({
       <View style={styles.searchContainer}>
         <TextInput
           style={styles.searchInput}
-          placeholder="Search by Name, Location, Breed, or Gender..."
+          placeholder="Search by Name, Location, Breed, or Gender"
           value={searchQuery}
           onChangeText={setSearchQuery}
           placeholderTextColor="#666"
@@ -287,7 +287,7 @@ const LostDogPage = ({
             </View>
           ))
         ) : (
-          <Text style={styles.noDataTextError}>
+          <Text style={styles.noDataText}>
             {searchQuery
               ? "No matching dogs found."
               : "No lost dogs reported yet."}
@@ -402,6 +402,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "#000",
   },
+  // ------------------------- Navbar -------------------- //
   navBar: {
     backgroundColor: "#664229",
     padding: 8,
@@ -416,6 +417,14 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "400",
   },
+  navTextActive: {
+    color: "#fff",
+    fontSize: 14,
+    fontWeight: "600",
+    textDecorationLine: "underline",
+  },
+  // ---------------------------------------------------- //
+  // ------------------------- Search Bar -------------------- //
   searchContainer: {
     paddingHorizontal: 15,
     paddingVertical: 10,
@@ -430,6 +439,7 @@ const styles = StyleSheet.create({
     borderColor: "#ddd",
     elevation: 2,
   },
+  // ---------------------------------------------------- //
   content: {
     flexGrow: 1,
     padding: 15,
@@ -533,9 +543,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
-  noDataTextError: {
+  noDataText: {
     fontSize: 15,
     color: "#666",
+    alignSelf: "center",
     textAlign: "center",
     justifyContent: "center",
     alignItems: "center",

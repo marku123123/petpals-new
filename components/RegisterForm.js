@@ -32,7 +32,7 @@ const RegisterForm = ({ onLoginClick }) => {
   const [loading, setLoading] = useState(false);
 
   // For Android emulator use 103.106.67.162, for iOS simulator use localhost
-  const API_URL = "http://192.168.1.11:5000/api/register/register";
+  const API_URL = "http://192.168.1.20:5000/api/register/register";
 
   const handleImageUpload = async () => {
     try {
@@ -79,8 +79,8 @@ const RegisterForm = ({ onLoginClick }) => {
     const isValidEmail = validDomains.some((domain) =>
       email.toLowerCase().endsWith(domain)
     );
-  
-     // Basic validation
+
+    // Basic validation
     if (
       !username ||
       !fullName ||
@@ -93,7 +93,7 @@ const RegisterForm = ({ onLoginClick }) => {
       setLoading(false);
       return;
     }
-      if (!isValidEmail) {
+    if (!isValidEmail) {
       setError("Email must be from yahoo.com, gmail.com, or hotmail.com.");
       setLoading(false);
       return;
@@ -278,9 +278,9 @@ const RegisterForm = ({ onLoginClick }) => {
 
           <Text style={styles.registerText}>
             Already part of our community?{" "}
-            <TouchableOpacity onPress={onLoginClick}>
-              <Text style={styles.registerSignUpLinkButton}>Login</Text>
-            </TouchableOpacity>
+            <Text onPress={onLoginClick} style={styles.registerSignUpLinkButton}>
+              Login
+            </Text>
           </Text>
         </View>
       </ScrollView>
@@ -387,10 +387,13 @@ const styles = StyleSheet.create({
     marginTop: 15,
     fontSize: 14,
     textAlign: "center",
+    flexDirection: "row",
   },
   registerSignUpLinkButton: {
     color: "#0066cc",
     textDecorationLine: "underline",
+
+
   },
   errorMessage: {
     color: "red",

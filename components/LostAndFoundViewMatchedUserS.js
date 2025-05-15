@@ -13,13 +13,13 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Define API URL constant
-const BASE_URL = "http://192.168.1.11:5000";
+const BASE_URL = "http://192.168.1.20:5000";
 
 const LostAndFoundViewMatchedUserS = ({
   dog,
   onNavigateToHome,
   onNavigateToProfile,
-  onNavigateToLostAndFoundDogMatched,
+  onNavigateToMatchPage,
   onLogout,
   onNavigateToChatForum,
 }) => {
@@ -130,7 +130,7 @@ const LostAndFoundViewMatchedUserS = ({
       <ScrollView contentContainerStyle={styles.mainContent}>
         <TouchableOpacity
           style={styles.arrowBtn}
-          onPress={() => onNavigateToLostAndFoundDogMatched?.()}
+          onPress={() => onNavigateToMatchPage?.()}
         >
           <Image
             source={require("../assets/images/back-arrow.png")}

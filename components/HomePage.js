@@ -23,7 +23,7 @@ const HomePage = ({
   onNavigateToMatchedPage,
   onNavigateToFoundDogPage,
   onNavigateToChatForum,
-  onNavigateToViewLostAndFoundSuggestions,
+  onNavigateToSuggestionsPage,
 }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [userData, setUserData] = useState(null);
@@ -32,8 +32,8 @@ const HomePage = ({
   const newChatsCount = useChatCount();
 
   // Define API URL constants
-  const NEW_POSTS_API_URL = "http://192.168.1.11:5000/api/posts/new-posts-count";
-  const profileApi = "http://192.168.1.11:5000/api/auth/user/profile";
+  const NEW_POSTS_API_URL = "http://192.168.1.20:5000/api/posts/new-posts-count";
+  const profileApi = "http://192.168.1.20:5000/api/auth/user/profile";
 
   useEffect(() => {
     const fetchNewPostsCount = async () => {
@@ -103,8 +103,8 @@ const HomePage = ({
     if (tab === "HomePageLostDog") onNavigateToLostDogPage?.();
     else if (tab === "HomePageMatched") onNavigateToMatchedPage?.();
     else if (tab === "HomePageFoundDog") onNavigateToFoundDogPage?.();
-    else if (tab === "ViewLostAndFoundSuggestions")
-      onNavigateToViewLostAndFoundSuggestions?.();
+    else if (tab === "SuggestionsPage")
+      onNavigateToSuggestionsPage?.();
   };
 
   return (
@@ -168,11 +168,11 @@ const HomePage = ({
             style={styles.navButton}
             onPress={() => handleTabClick("HomePageMatched")}
           >
-            <Text style={styles.navText}>Matched Page</Text>
+            <Text style={styles.navText}>Match Page</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.navButton}
-            onPress={() => handleTabClick("ViewLostAndFoundSuggestions")}
+            onPress={() => handleTabClick("SuggestionsPage")}
           >
             <Text style={styles.navText}>View Suggestions</Text>
           </TouchableOpacity>

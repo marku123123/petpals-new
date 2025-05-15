@@ -24,7 +24,7 @@ const FoundDogPage = ({
   onNavigateToLostDogPage,
   onNavigateToChatForum,
   onNavigateToFoundDogViewUserInfo,
-  onNavigateToViewLostAndFoundSuggestions,
+  onNavigateToSuggestionsPage,
 }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [foundDogs, setFoundDogs] = useState([]);
@@ -34,10 +34,10 @@ const FoundDogPage = ({
   const newChatsCount = useChatCount();
 
   // Define API URL constants
-  const FOUND_DOG_API_URL = "http://192.168.1.11:5000/api/founddog";
-  const NEW_POSTS_API_URL = "http://192.168.1.11:5000/api/posts/new-posts-count";
-  const SOCKET_URL = "http://192.168.1.11:5000";
-  const BASE_URL = "http://192.168.1.11:5000";
+  const FOUND_DOG_API_URL = "http://192.168.1.20:5000/api/founddog";
+  const NEW_POSTS_API_URL = "http://192.168.1.20:5000/api/posts/new-posts-count";
+  const SOCKET_URL = "http://192.168.1.20:5000";
+  const BASE_URL = "http://192.168.1.20:5000";
 
   useEffect(() => {
     const fetchData = async () => {
@@ -124,8 +124,8 @@ const FoundDogPage = ({
   const handleTabClick = (tab) => {
     if (tab === "HomePageLostDog") onNavigateToLostDogPage?.();
     else if (tab === "HomePageMatched") onNavigateToMatchedPage?.();
-    else if (tab === "ViewLostAndFoundSuggestions")
-      onNavigateToViewLostAndFoundSuggestions?.();
+    else if (tab === "SuggestionsPage")
+      onNavigateToSuggestionsPage?.();
   };
 
   const handleMessageClick = () => onNavigateToChatForum?.();
@@ -192,17 +192,17 @@ const FoundDogPage = ({
             style={styles.navButton}
             onPress={() => handleTabClick("HomePageFoundDog")}
           >
-            <Text style={styles.navTexts}>Found Dog Page</Text>
+            <Text style={styles.navTextActive}>Found Dog Page</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.navButton}
             onPress={() => handleTabClick("HomePageMatched")}
           >
-            <Text style={styles.navText}>Matched Page</Text>
+            <Text style={styles.navText}>Match Page</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.navButton}
-            onPress={() => handleTabClick("ViewLostAndFoundSuggestions")}
+            onPress={() => handleTabClick("SuggestionsPage")}
           >
             <Text style={styles.navText}>View Suggestions</Text>
           </TouchableOpacity>
@@ -213,7 +213,7 @@ const FoundDogPage = ({
       <View style={styles.searchContainer}>
         <TextInput
           style={styles.searchInput}
-          placeholder="Search by Location, Breed, or Gender..."
+          placeholder="Search by Location, Breed, or Gender"
           value={searchQuery}
           onChangeText={setSearchQuery}
           placeholderTextColor="#666"
@@ -385,10 +385,7 @@ const styles = StyleSheet.create({
   },
   navBar: {
     backgroundColor: "#664229",
-    paddingVertical: 10,
-    paddingHorizontal: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#333",
+    padding:8,   
   },
   navButton: {
     paddingHorizontal: 15,
@@ -400,22 +397,21 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "600",
   },
-  navTexts: {
+  navTextActive: {
     color: "#fff",
     fontSize: 14,
     fontWeight: "600",
     textDecorationLine: "underline",
   },
-  searchContainer: {
+   searchContainer: {
     paddingHorizontal: 15,
     paddingVertical: 10,
   },
   searchInput: {
     backgroundColor: "#fff",
-    borderRadius: 20,
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-    fontSize: 16,
+    borderRadius: 10,
+    padding: 8,
+    fontSize: 15,
     color: "#333",
     borderWidth: 1,
     borderColor: "#ddd",
@@ -512,10 +508,12 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   noDataText: {
-    fontSize: 18,
+    fontSize: 15,
     color: "#666",
+    alignSelf: "center",
     textAlign: "center",
-    padding: 20,
+    justifyContent: "center",
+    alignItems: "center",
   },
   footer: {
     flexDirection: "row",

@@ -20,14 +20,14 @@ const LoginPage = ({ onSignUpClick, onLoginSuccess }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   // For Android emulator use 103.106.67.162, for iOS simulator use localhost
-  //const API_URL = "http://192.168.1.11:5000/api/login/login";
-  const API_URL = "http://192.168.1.11:5000/api/login/login";
+  //const API_URL = "http://192.168.1.20:5000/api/login/login";
+  const API_URL = "http://192.168.1.20:5000/api/login/login";
 
   // ----------------------------------------------------- For login  ------------------------------------------------
   const handleLoginSubmit = async () => {
 
     if (!username || !password) {
-      setErrorMessage("Username and password are required.");
+      setErrorMessage("Please enter username and password.");
       Alert.alert("Login Error", "Username and password are required.");
       setIsLoading(false);
       return;
@@ -59,7 +59,6 @@ const LoginPage = ({ onSignUpClick, onLoginSuccess }) => {
         onLoginSuccess();
       }
     }
-
     catch (error) {
       let errorMsg = "Login failed. Please try again.";
 
@@ -146,9 +145,9 @@ const LoginPage = ({ onSignUpClick, onLoginSuccess }) => {
 
         <Text style={styles.loginText}>
           Don't have an account?{" "}
-          <TouchableOpacity onPress={onSignUpClick} disabled={isLoading}>
+          <Text onPress={onSignUpClick} disabled={isLoading}>
             <Text style={styles.signUpLinkButton}>Signup</Text>
-          </TouchableOpacity>
+          </Text>
         </Text>
       </View>
     </View>

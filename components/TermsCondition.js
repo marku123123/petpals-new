@@ -163,9 +163,11 @@ const TermsModal = ({ visible, onClose, onAccept }) => {
                 />
               )}
             </TouchableOpacity>
+            <TouchableOpacity onPress={handleCheckboxChange}>
             <Text style={styles.checkboxLabel}>
               I accept and understand the agreement.
             </Text>
+            </TouchableOpacity>
           </View>
 
           <TouchableOpacity
