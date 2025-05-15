@@ -12,7 +12,7 @@ import {
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const LoginForm = ({ onSignUpClick, onLoginSuccess }) => {
+const LoginPage = ({ onSignUpClick, onLoginSuccess }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -20,9 +20,19 @@ const LoginForm = ({ onSignUpClick, onLoginSuccess }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   // For Android emulator use 103.106.67.162, for iOS simulator use localhost
-  const API_URL = "http://192.168.1.20:5000/api/login/login";
+  //const API_URL = "http://192.168.1.11:5000/api/login/login";
+  const API_URL = "http://192.168.1.11:5000/api/login/login";
 
+  // ----------------------------------------------------- For login  ------------------------------------------------
   const handleLoginSubmit = async () => {
+
+    if (!username || !password) {
+      setErrorMessage("Username and password are required.");
+      Alert.alert("Login Error", "Username and password are required.");
+      setIsLoading(false);
+      return;
+    }
+
     setErrorMessage("");
     setIsLoading(true);
 
@@ -48,7 +58,9 @@ const LoginForm = ({ onSignUpClick, onLoginSuccess }) => {
 
         onLoginSuccess();
       }
-    } catch (error) {
+    }
+
+    catch (error) {
       let errorMsg = "Login failed. Please try again.";
 
       if (error.response) {
@@ -66,9 +78,10 @@ const LoginForm = ({ onSignUpClick, onLoginSuccess }) => {
     }
   };
 
+
   return (
     <View style={styles.outerContainer}>
-      <View style={styles.loginFormContainer}>
+      <View style={styles.LoginPageContainer}>
         <View style={styles.loginLogo}>
           <Image
             source={require("../assets/images/Global-images/Logo-removebg.png")}
@@ -80,7 +93,7 @@ const LoginForm = ({ onSignUpClick, onLoginSuccess }) => {
           <Text style={styles.errorMessage}>{errorMessage}</Text>
         )}
 
-        <View style={styles.loginForm}>
+        <View style={styles.LoginPage}>
           <TextInput
             style={styles.input}
             placeholder="Username"
@@ -118,7 +131,7 @@ const LoginForm = ({ onSignUpClick, onLoginSuccess }) => {
           <TouchableOpacity
             style={[
               styles.loginButton,
-              isLoading && styles.loginButtonDisabled,
+              isLoading && styles.loginButtonLoading,
             ]}
             onPress={handleLoginSubmit}
             disabled={isLoading}
@@ -149,7 +162,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#D2B48C",
   },
-  loginFormContainer: {
+  LoginPageContainer: {
     width: "80%",
     maxWidth: 400,
     minHeight: 350,
@@ -173,7 +186,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 20,
   },
-  loginForm: {
+  LoginPage: {
     width: "100%",
     alignItems: "center",
   },
@@ -219,8 +232,8 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     alignItems: "center",
   },
-  loginButtonDisabled: {
-    backgroundColor: "#888",
+  loginButtonLoading: {
+    backgroundColor: "#664229",
   },
   loginButtonText: {
     color: "white",
@@ -250,4 +263,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginForm;
+export default LoginPage;

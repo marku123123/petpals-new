@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import LoginForm from "../LoginForm";
+import LoginPage from "../LoginPage";
 const ProtectedRoute = ({
   component: Component,
   onSignUpClick,
@@ -24,7 +24,7 @@ const ProtectedRoute = ({
   return isAuthenticated ? (
     <Component {...props} />
   ) : (
-    <LoginForm onSignUpClick={onSignUpClick} onLoginSuccess={onLoginSuccess} />
+    <LoginPage onSignUpClick={onSignUpClick} onLoginSuccess={onLoginSuccess} />
   );
 };
 

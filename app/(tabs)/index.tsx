@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import LoadingScreen from "../../components/LoadingScreen";
-import LoginForm from "../../components/LoginForm";
+import LoginPage from "../../components/LoginPage";
 import RegisterForm from "../../components/RegisterForm";
 import TermsModal from "../../components/TermsCondition";
 import HomePage from "../../components/HomePage";
@@ -453,7 +453,7 @@ const App = () => {
           />
         ) : null
       ) : (
-        <LoginForm
+        <LoginPage
           onSignUpClick={handleSignUpClick}
           onLoginSuccess={handleLoginSuccess}
         />

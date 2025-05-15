@@ -34,7 +34,7 @@ const LostDogPage = ({
   const newChatsCount = useChatCount();
 
   // Define API URL constants (NEW)
-  const BASE_URL = "http://192.168.1.20:5000";
+  const BASE_URL = "http://192.168.1.11:5000";
   const LOST_DOG_API_URL = `${BASE_URL}/api/lostdog`;
   const NEW_POSTS_API_URL = `${BASE_URL}/api/posts/new-posts-count`;
   const SOCKET_URL = BASE_URL;
