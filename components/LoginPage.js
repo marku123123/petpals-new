@@ -20,19 +20,13 @@ const LoginPage = ({ onSignUpClick, onLoginSuccess }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   // For Android emulator use 103.106.67.162, for iOS simulator use localhost
-  //const API_URL = "http://192.168.1.20:5000/api/login/login";
-  const API_URL = "http://192.168.1.20:5000/api/login/login";
+  //const API_URL = "http://10.0.2.2:5000/api/login/login";
+  //const API_URL = "http://10.0.2.2:5000/api/login/login";
+  const API_URL = "http://10.0.2.2:5000/api/login/login";
+
 
   // ----------------------------------------------------- For login  ------------------------------------------------
   const handleLoginSubmit = async () => {
-
-    if (!username || !password) {
-      setErrorMessage("Please enter username and password.");
-      Alert.alert("Login Error", "Username and password are required.");
-      setIsLoading(false);
-      return;
-    }
-
     setErrorMessage("");
     setIsLoading(true);
 
@@ -54,20 +48,19 @@ const LoginPage = ({ onSignUpClick, onLoginSuccess }) => {
         await AsyncStorage.multiSet([
           ["token", response.data.token],
           ["user", JSON.stringify(response.data.user)],
-        ]);
-
+        ])
         onLoginSuccess();
       }
     }
     catch (error) {
       let errorMsg = "Login failed. Please try again.";
-
       if (error.response) {
         // Server responded with error status
         errorMsg = error.response.data.message || errorMsg;
       } else if (error.request) {
         // Request was made but no response
         errorMsg = "Network error. Please check your connection.";
+
       }
 
       setErrorMessage(errorMsg);
@@ -75,8 +68,14 @@ const LoginPage = ({ onSignUpClick, onLoginSuccess }) => {
     } finally {
       setIsLoading(false);
     }
-  };
 
+    if (!username || !password) {
+      setErrorMessage("Please enter username and password.");
+      Alert.alert("Login Error", "Username and password are required.");
+      setIsLoading(false);
+      return;
+    }
+  };
 
   return (
     <View style={styles.outerContainer}>

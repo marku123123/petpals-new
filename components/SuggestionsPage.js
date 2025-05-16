@@ -16,7 +16,7 @@ import useChatCount from "./hooks/useChatCount";
 import NotificationModal from "./NotificationModal";
 
 // Define API URL constants
-const BASE_URL = "http://192.168.1.20:5000";
+const BASE_URL = "http://10.0.2.2:5000";
 const NEW_POSTS_API_URL = `${BASE_URL}/api/posts/new-posts-count`;
 const SUGGESTIONS_API_URL = `${BASE_URL}/api/suggestions`;
 
@@ -305,7 +305,7 @@ const SuggestionsPage = ({
       {/* Content */}
       <ScrollView contentContainerStyle={styles.content}>
         {suggestions.length === 0 ? (
-          <Text style={styles.noDataText}>No suggestions yet.</Text>
+          <Text style={styles.noDataText}>No posted suggestions yet.</Text>
         ) : (
           suggestions.map((suggestion, index) => {
             const createdAt = new Date(suggestion.createdAt);
@@ -449,9 +449,7 @@ const styles = StyleSheet.create({
   suggestionInputContainer: {
     // ------------------------- Main box ---------------------
     padding: 15,
-    backgroundColor: "#fff",
-    borderBottomWidth: 1,
-    borderBottomColor: "#ddd",
+    backgroundColor: "transparent",
     alignSelf: "center",
     marginTop: 10,
     borderRadius: 10,
