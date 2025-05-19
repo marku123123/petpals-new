@@ -48,8 +48,8 @@ const LostDogFormConfirmation = ({
   const newChatsCount = useChatCount();
 
   // Define API URL constants
-  const NEW_POSTS_API_URL = "http://10.0.2.2:5000/api/posts/new-posts-count";
-  const LOST_DOG_API_URL = "http://10.0.2.2:5000/api/lostdog";
+  const NEW_POSTS_API_URL = "http://192.168.1.13:5000/api/posts/new-posts-count";
+  const LOST_DOG_API_URL = "http://192.168.1.13:5000/api/lostdog";
 
   useEffect(() => {
     const fetchNewPostsCount = async () => {
@@ -116,15 +116,22 @@ const LostDogFormConfirmation = ({
   const handleEditClick = () => setIsEditing(true);
 
   const handleSaveChanges = () => {
-    setIsEditing(false);
-    console.log("Updated data:", {
-      name: editName,
-      breed: editBreed,
-      size: editSize,
-      details: editDetails,
-      gender: editGender,
-      location: editLocation,
-    });
+    const fields = [editName, editBreed, editSize, editDetails, editGender, editLocation];
+
+    if (fields.every(field => field)) {
+      setIsEditing(false);
+      console.log("Updated data:", {
+        name: editName,
+        breed: editBreed,
+        size: editSize,
+        details: editDetails,
+        gender: editGender,
+        location: editLocation,
+      });
+    } else {
+      Alert.alert("Error", "There was an error saving your details. Please ensure that all fields are filled out correctly.");
+      console.warn("Error: There was an error saving your details. Please ensure that all fields are filled out correctly.");
+    }
   };
 
   const handleReportAsLostClick = () => {
@@ -391,7 +398,7 @@ const LostDogFormConfirmation = ({
                 style={styles.input}
                 value={editSize}
                 onChangeText={setEditSize}
-                placeholder="Size"
+                placeholder="Size (Small, Medium, Huge)"
                 placeholderTextColor="#999"
               />
             ) : (
@@ -417,7 +424,7 @@ const LostDogFormConfirmation = ({
                 style={styles.input}
                 value={editLocation}
                 onChangeText={setEditLocation}
-                placeholder="Location"
+                placeholder="Dog's last seen location"
                 placeholderTextColor="#999"
               />
             ) : (

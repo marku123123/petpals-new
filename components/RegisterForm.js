@@ -32,7 +32,7 @@ const RegisterForm = ({ onLoginClick }) => {
   const [loading, setLoading] = useState(false);
 
   // For Android emulator use 103.106.67.162, for iOS simulator use localhost
-  const API_URL = "http://10.0.2.2:5000/api/register/register";
+  const API_URL = "http://192.168.1.13:5000/api/register/register";
 
   const handleImageUpload = async () => {
     try {

@@ -32,8 +32,8 @@ const HomePage = ({
   const newChatsCount = useChatCount();
 
   // Define API URL constants
-  const NEW_POSTS_API_URL = "http://10.0.2.2:5000/api/posts/new-posts-count";
-  const profileApi = "http://10.0.2.2:5000/api/auth/user/profile";
+  const NEW_POSTS_API_URL = "http://192.168.1.13:5000/api/posts/new-posts-count";
+  const profileApi = "http://192.168.1.13:5000/api/auth/user/profile";
 
   useEffect(() => {
     const fetchNewPostsCount = async () => {

@@ -44,16 +44,9 @@ const LostDogForm = ({
   const [imageError, setImageError] = useState("");
   const newChatsCount = useChatCount();
 
-  const [isFocused, setIsFocused] = useState(false);
-  const handleFocus = () => setIsFocused(true);
-  const handleBlur = () => setTimeout(() => setIsFocused(false), 100);
-
-
-
   const locationiqKey = "pk.0ee70983b8d94b132991d9b76b73102e";
   const debounceTimeout = useRef(null);
-
-  const NEW_POSTS_API_URL = "http://10.0.2.2:5000/api/posts/new-posts-count";
+  const NEW_POSTS_API_URL = "http://192.168.1.13:5000/api/posts/new-posts-count";
 
   useEffect(() => {
     const fetchNewPostsCount = async () => {
@@ -136,7 +129,9 @@ const LostDogForm = ({
     }
   };
 
+  // ---------------------------------------------- Handle submit button -----------------------------------
   const handleSubmit = () => {
+
     setNameError("");
     setBreedError("");
     setSizeError("");
@@ -144,28 +139,33 @@ const LostDogForm = ({
     setLocationError("");
     setImageError("");
 
-    if (!dogName) {
-      setNameError("Please enter dog's name.");
-      return;
-    }
-    if (!dogBreed) {
-      setBreedError("Please enter the dog's breed.");
-      return;
-    }
-    if (!dogSize) {
-      setSizeError("Please enter the dog's size.");
-      return;
-    }
-    if (!gender) {
-      setGenderError("Please select the dog's gender.");
-      return;
-    }
-    if (!location) {
-      setLocationError("Please enter where the dog was last seen.");
-      return;
-    }
-    if (!selectedImage) {
-      setImageError("Please upload a picture!");
+    if (!selectedImage || !dogName || !dogBreed || !dogSize || !gender || !location) {
+      if (!selectedImage) {
+        setImageError("Please upload a picture of your dog.");
+
+      }
+      if (!dogName) {
+        setNameError("Please enter dog's name.");
+
+      }
+      if (!dogBreed) {
+        setBreedError("Please enter dog's breed.");
+
+      }
+      if (!dogSize) {
+        setSizeError("Please enter dog's size.");
+
+      }
+      if (!gender) {
+        setGenderError("Please select dog's gender.");
+        //console.log("Gender not selected.");
+      } else {
+        //console.log("Gender selected:", gender);
+      }
+      if (!location) {
+        setLocationError("Please enter where the dog was last seen.");
+
+      }
       return;
     }
 
@@ -334,12 +334,17 @@ const LostDogForm = ({
             />
             <Text style={styles.mainTitle}>Back</Text>
           </TouchableOpacity>
-          <View style={{ marginTop: 15}}>
+          <View style={{ marginTop: 15 }}>
           </View>
           {/* --------------------------------------------------------------------------------------------------------------------------- */}
           <View style={styles.imageUploadContainer}>
             <TouchableOpacity onPress={handleImageUpload}>
               <View style={styles.uploadContent}>
+                {selectedImage ? (
+                  <Text style={styles.menuTexts}>Upload image of your dog</Text>
+                ) : (
+                  <Text style={styles.menuTexts}>Upload image of your dog</Text>
+                )}
                 <Image
                   source={
                     selectedImage
@@ -351,7 +356,6 @@ const LostDogForm = ({
                   }
                   resizeMode="cover"
                 />
-                <Text style={styles.menuTexts}>Upload image of your dog</Text>
               </View>
             </TouchableOpacity>
             {imageError ? (
@@ -406,7 +410,6 @@ const LostDogForm = ({
             multiline
             numberOfLines={4}
           />
-
           <Text style={styles.label}>Gender:</Text>
           <View style={styles.genderContainer}>
             <TouchableOpacity
@@ -417,9 +420,9 @@ const LostDogForm = ({
               onPress={() => {
                 setGender("Male");
                 setGenderError("");
+
               }}
             >
-
               <Text
                 style={[
                   styles.genderText,
@@ -443,11 +446,10 @@ const LostDogForm = ({
                 setGenderError("");
               }}
             >
-
               <Text
                 style={[
                   styles.genderText,
-                  gender === "Female" && styles.genderTextSelected,
+                  setGender === "Female" && styles.genderTextSelected,
                 ]}
               >
                 Female
@@ -472,7 +474,7 @@ const LostDogForm = ({
             */}
             <TextInput
               style={styles.input}
-              placeholder="Enter last seen location"
+              placeholder="Enter dog's last seen location"
               value={location}
               onChangeText={handleLocationChange}
             />
@@ -584,7 +586,11 @@ const styles = StyleSheet.create({
     borderBottomColor: "#ccc",
   },
   menuText: { fontSize: 16, color: "#000" },
-  menuTexts: { fontSize: 14, color: "#000", marginLeft: -20, alignItems: "center" },
+  menuTexts: {
+    alignContent: "center",
+    textAlign: 'center',
+    marginBottom: '5',
+  },
   navBar: {
     flexDirection: "row",
     justifyContent: "space-around",
@@ -604,12 +610,13 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   uploadContent: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: 'column', // Ensure items are stacked vertically
+    alignItems: 'center',     // Center items horizontally
+    justifyContent: 'center',  // Center items vertically
   },
   imageUploadContainer: {
-    marginBottom: 20, alignItems: 'center',     // centers image and text horizontally
-    justifyContent: "center",
+    marginBottom: 20,
+    alignItems: 'center',     // centers image and text horizontally
   },
   imageUploadIcon: {
     width: 60,

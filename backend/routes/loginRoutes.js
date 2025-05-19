@@ -10,7 +10,8 @@ router.post("/login", async (req, res) => {
 
   try {
     // Validate input
-    if (!username || !password) {
+    if (!username.trim() || !password.trim()) {
+    
       return res.status(400).json({
         success: false,
         message: "Username and password are required."
@@ -21,11 +22,10 @@ router.post("/login", async (req, res) => {
     const user = await User.findOne({
       username: { $regex: new RegExp(`^${username}$`, 'i') }
     });
-
     if (!user) {
       return res.status(401).json({
         success: false,
-        message: "Invalid credentials."
+        message: "Incorrect username or password."
       });
     }
 
@@ -75,7 +75,7 @@ router.post("/login", async (req, res) => {
     console.error("Login error:", error);
     res.status(500).json({
       success: false,
-      message: "Server error during login",
+      message: "An error occurred during login.",
       error: process.env.NODE_ENV === 'development' ? error.message : undefined
     });
   }
