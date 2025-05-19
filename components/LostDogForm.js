@@ -1,3 +1,4 @@
+{/*  --------------------------------------- DI MA CLICK ANG LOCATION PERO WORKING ANG SUBMIT  ---------------------- */ }
 import React, { useState, useEffect, useRef } from "react";
 import {
   View,
@@ -185,6 +186,7 @@ const LostDogForm = ({
       onNavigateToLostDogFormConfirmation(formData);
     }
   };
+
   // ------------------------------------------------------------ navigate to another page ------------------------------------------------
   const handleMessageClick = () => {
     if (onNavigateToChatForum) onNavigateToChatForum();
@@ -311,22 +313,10 @@ const LostDogForm = ({
 
       <View style={styles.formWrapper}>
         <ScrollView contentContainerStyle={styles.formContainer}>
-          {/* ------------------------------------------------------------ Back button ------------------------------------------------ */}
+          {/* --------------------------------------------------- Back button ------------------------------------------------ */}
           <TouchableOpacity
             style={styles.arrowBtn}
-            onPress={() => {
-              if (onNavigateToLostDogPage) {
-                onNavigateToLostDogPage();
-              } else {
-                // Fallback if navigation isn't working
-                console.warn("Navigation not available - using alternative method");
-                if (navigation) {
-                  navigation.navigate('LostDogPage');
-                } else {
-                  console.error("No navigation method available");
-                }
-              }
-            }}
+            onPress={() => navigateToLostDogPage()}
           >
             <Image
               source={require("../assets/images/back-arrow.png")}
@@ -395,8 +385,9 @@ const LostDogForm = ({
             placeholder="Enter dog's size"
             value={dogSize}
             onChangeText={(text) => {
-              setDogSize(text);
               setSizeError("");
+              setDogSize(text);
+
             }}
           />
           {sizeError ? <Text style={styles.errorText}>{sizeError}</Text> : null}
@@ -420,7 +411,6 @@ const LostDogForm = ({
               onPress={() => {
                 setGender("Male");
                 setGenderError("");
-
               }}
             >
               <Text
@@ -485,13 +475,14 @@ const LostDogForm = ({
           <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
             <Text style={styles.submitButtonText}>SUBMIT</Text>
           </TouchableOpacity>
-          {/* ------------------------------------------ addSpace --------------------------- */}
+
           <View style={{ marginTop: 5 }}>
+            {/* ------------------------------------------ addSpace --------------------------- */}
           </View>
         </ScrollView>
-        {/* ------------------------------------------ Location suggestions --------------------------- */}
         {suggestions.length > 0 && (
-          <View style={styles.locationSuggestionContainer}>
+          // ----------------------------------- Location suggestions API ------------------------ //
+          <View style={styles.suggestionsContainer}>
             <Text style={styles.suggestionTextTitle}>Choose location</Text>
             <FlatList
               data={suggestions}
@@ -499,7 +490,7 @@ const LostDogForm = ({
               renderItem={({ item }) => (
                 <TouchableOpacity
                   style={styles.suggestionItem}
-                  onChangeText={() => handleSuggestionSelect(item)}
+                  onPress={() => handleSuggestionSelect(item)}
                 >
                   <Text style={styles.suggestionText}>{item.value}</Text>
                 </TouchableOpacity>
@@ -544,7 +535,7 @@ const LostDogForm = ({
       </View>
 
       <NotificationModal isModalOpen={isModalOpen} closeModal={closeModal} />
-    </View>
+    </View >
   );
 };
 
@@ -609,14 +600,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#F5F5F5",
     width: "100%",
   },
+
+  imageUploadContainer: {
+    marginBottom: 20,
+    alignItems: 'center',     // centers image and text horizontally
+  },
   uploadContent: {
     flexDirection: 'column', // Ensure items are stacked vertically
     alignItems: 'center',     // Center items horizontally
     justifyContent: 'center',  // Center items vertically
-  },
-  imageUploadContainer: {
-    marginBottom: 20,
-    alignItems: 'center',     // centers image and text horizontally
   },
   imageUploadIcon: {
     width: 60,
@@ -702,6 +694,18 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   submitButtonText: { fontSize: 18, color: "#fff", fontWeight: "bold", },
+  suggestionsContainer: {
+    position: "absolute",
+    top: 440, // Adjust based on location input position
+    left: 15,
+    right: 15,
+    backgroundColor: "#FFF",
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5,
+    maxHeight: 150,
+    zIndex: 1000, // Ensure it appears above other elements
+  },
   footer: {
     flexDirection: "row",
     justifyContent: "space-around",

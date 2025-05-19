@@ -296,8 +296,8 @@ const LostDogFormConfirmation = ({
 
       <ScrollView contentContainerStyle={styles.content}>
         {/* -------------------------------------------------------------------------------- Main content --------------------------------------------------------*/}
-        {/* ----------------------------------------- Back Arrow Button ----------------------------------------*/}
         <TouchableOpacity
+          /* ----------------------------------------- Back Arrow Button ---------------------------------------- */
           style={styles.backButton}
           onPress={() => onNavigateToLostDogForm?.()}
         >
@@ -307,7 +307,7 @@ const LostDogFormConfirmation = ({
           />
           <Text style={styles.backText}>Go back to form</Text>
         </TouchableOpacity>
-        {/* -----------------------------------------------------------------------------------------------------*/}
+
 
         <View style={styles.profileCard}>
           <View style={styles.profileHeader}>

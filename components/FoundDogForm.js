@@ -432,7 +432,7 @@ const FoundDogForm = ({
           {genderError ? (
             <Text style={styles.errorText}>{genderError}</Text>
           ) : null}
-
+          
           <Text style={styles.label}>Location:</Text>
           <View style={styles.locationInputContainer}>
             <Image
@@ -446,30 +446,28 @@ const FoundDogForm = ({
               onChangeText={handleLocationChange}
             />
           </View>
-
           <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
             <Text style={styles.submitButtonText}>SUBMIT</Text>
           </TouchableOpacity>
-
-
-          {/* Autocomplete Suggestions Dropdown */}
-          {suggestions.length > 0 && (
-            <View style={styles.suggestionsContainer}>
-              <FlatList
-                data={suggestions}
-                keyExtractor={(item) => item.data.osm_id.toString()}
-                renderItem={({ item }) => (
-                  <TouchableOpacity
-                    style={styles.suggestionItem}
-                    onPress={() => handleSuggestionSelect(item)}
-                  >
-                    <Text style={styles.suggestionText}>{item.value}</Text>
-                  </TouchableOpacity>
-                )}
-              />
-            </View>
-          )}
         </ScrollView>
+        {suggestions.length > 0 && (
+          // ------------------------------ Autocomplete Location Suggestions Dropdown  -------------------//
+          <View style={styles.suggestionsContainer}>
+            <FlatList
+              data={suggestions}
+              keyExtractor={(item) => item.data.osm_id.toString()}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  style={styles.suggestionItem}
+                  onPress={() => handleSuggestionSelect(item)}
+                >
+                  <Text style={styles.suggestionText}>{item.value}</Text>
+                </TouchableOpacity>
+              )}
+            />
+          </View>
+        )}
+
       </View>
 
       <View style={styles.footer}>
@@ -646,7 +644,7 @@ const styles = StyleSheet.create({
   locationInput: { flex: 1, padding: 10, fontSize: 16 },
   suggestionsContainer: {
     position: "absolute",
-    top: 540, // Adjust based on location input position
+    top: 590, // Adjust based on location input position
     left: 15,
     right: 15,
     backgroundColor: "#FFF",
