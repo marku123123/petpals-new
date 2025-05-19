@@ -34,10 +34,10 @@ const FoundDogPage = ({
   const newChatsCount = useChatCount();
 
   // Define API URL constants
-  const FOUND_DOG_API_URL = "http://192.168.1.13:5000/api/founddog";
-  const NEW_POSTS_API_URL = "http://192.168.1.13:5000/api/posts/new-posts-count";
-  const SOCKET_URL = "http://192.168.1.13:5000";
-  const BASE_URL = "http://192.168.1.13:5000";
+  const FOUND_DOG_API_URL = "http://192.168.1.12:5000/api/founddog";
+  const NEW_POSTS_API_URL = "http://192.168.1.12:5000/api/posts/new-posts-count";
+  const SOCKET_URL = "http://192.168.1.12:5000";
+  const BASE_URL = "http://192.168.1.12:5000";
 
   useEffect(() => {
     const fetchData = async () => {

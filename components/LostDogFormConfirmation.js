@@ -48,8 +48,8 @@ const LostDogFormConfirmation = ({
   const newChatsCount = useChatCount();
 
   // Define API URL constants
-  const NEW_POSTS_API_URL = "http://192.168.1.13:5000/api/posts/new-posts-count";
-  const LOST_DOG_API_URL = "http://192.168.1.13:5000/api/lostdog";
+  const NEW_POSTS_API_URL = "http://192.168.1.12:5000/api/posts/new-posts-count";
+  const LOST_DOG_API_URL = "http://192.168.1.12:5000/api/lostdog";
 
   useEffect(() => {
     const fetchNewPostsCount = async () => {
@@ -205,6 +205,7 @@ const LostDogFormConfirmation = ({
           console.error("Navigation functions are not defined!");
         }
         Alert.alert("Success", "Lost dog reported successfully!");
+        console.log("Success", "Lost dog reported successfully!");
       }
     } catch (error) {
       console.error("Detailed error reporting lost dog:", {

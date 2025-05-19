@@ -45,7 +45,7 @@ const FoundDogForm = ({
   const locationiqKey = "pk.0ee70983b8d94b132991d9b76b73102e";
   const debounceTimeout = useRef(null);
 
-  const NEW_POSTS_API_URL = "http://192.168.1.13:5000/api/posts/new-posts-count";
+  const NEW_POSTS_API_URL = "http://192.168.1.12:5000/api/posts/new-posts-count";
 
   useEffect(() => {
     const fetchNewPostsCount = async () => {
@@ -309,7 +309,7 @@ const FoundDogForm = ({
       <View style={styles.formWrapper}>
         {/* -------------------------------------------------------------------------- Main wrapper ----------------------------------------------------- */}
         <ScrollView contentContainerStyle={styles.formContainer}>
-          {/* ------------------------------------------------------------ Back button ------------------------------------------------ */}
+          {/* ------------------------------------------------------------ Back button ------------------------------------------------
           <TouchableOpacity
             style={styles.arrowBtn}
             onPress={() => {
@@ -325,14 +325,14 @@ const FoundDogForm = ({
                 }
               }
             }}
-          >
+          > 
             <Image
               source={require("../assets/images/back-arrow.png")}
               style={styles.arrowIcon}
             />
             <Text style={styles.mainTitle}>Back</Text>
           </TouchableOpacity>
-          {/* --------------------------------------------------------------------------------------------------------------------------- */}
+           */}
           <View style={styles.imageUploadContainer}>
             <TouchableOpacity onPress={handleImageUpload}>
               <View style={styles.uploadContent}>
@@ -433,9 +433,7 @@ const FoundDogForm = ({
             <Text style={styles.errorText}>{genderError}</Text>
           ) : null}
 
-
           <Text style={styles.label}>Location:</Text>
-
           <View style={styles.locationInputContainer}>
             <Image
               source={require("../assets/images/location-icon.png")}

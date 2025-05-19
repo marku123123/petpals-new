@@ -17,7 +17,7 @@ const NotificationModal = ({ isModalOpen, closeModal }) => {
   const [notifications, setNotifications] = useState([]);
 
   // Define API URL constant
-  const NEW_POSTS_API_URL = "http://192.168.1.13:5000/api/posts/new-posts";
+  const NEW_POSTS_API_URL = "http://192.168.1.12:5000/api/posts/new-posts";
 
   useEffect(() => {
     if (isModalOpen) {
@@ -62,7 +62,7 @@ const NotificationModal = ({ isModalOpen, closeModal }) => {
               {item.category === "Lost" ? "Lost Dog" : "Found Dog"}
             </Text>
             <Text style={styles.notificationName}>
-              {item.name || "Unnamed Dog"}
+              {item.name || "(Unknown)"}
             </Text>
           </View>
         </View>
@@ -110,7 +110,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   modalContent: {
-    width: width * 0.8,
+    //width: width * 0.9,
+    width: "90%",
     maxHeight: height * 0.8,
     backgroundColor: "white",
     padding: 20,

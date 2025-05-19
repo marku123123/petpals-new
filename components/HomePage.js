@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
-  Image,  
-  TouchableOpacity, 
+  Image,
+  TouchableOpacity,
   StyleSheet,
   Modal,
   ScrollView,
@@ -32,8 +32,8 @@ const HomePage = ({
   const newChatsCount = useChatCount();
 
   // Define API URL constants
-  const NEW_POSTS_API_URL = "http://192.168.1.13:5000/api/posts/new-posts-count";
-  const profileApi = "http://192.168.1.13:5000/api/auth/user/profile";
+  const NEW_POSTS_API_URL = "http://192.168.1.12:5000/api/posts/new-posts-count";
+  const profileApi = "http://192.168.1.12:5000/api/auth/user/profile";
 
   useEffect(() => {
     const fetchNewPostsCount = async () => {
@@ -51,7 +51,7 @@ const HomePage = ({
 
   useEffect(() => {
     const socketConnection = io(NEW_POSTS_API_URL);
-    socketConnection.on("receive_forum_message", ({ count }) => {});
+    socketConnection.on("receive_forum_message", ({ count }) => { });
     return () => socketConnection.disconnect();
   }, []);
 
@@ -86,6 +86,7 @@ const HomePage = ({
   const logout = async () => {
     await AsyncStorage.removeItem("token");
     onBackClick();
+   
   };
 
   const profileAccount = () => {
@@ -186,10 +187,9 @@ const HomePage = ({
             source={
               userData?.profilePic
                 ? {
-                    uri: `${profileApi.replace("/api/auth/user/profile", "")}${
-                      userData.profilePic
+                  uri: `${profileApi.replace("/api/auth/user/profile", "")}${userData.profilePic
                     }`,
-                  }
+                }
                 : require("../assets/images/Global-images/default-user-profile.png")
             }
             style={styles.profileImage}

@@ -20,13 +20,11 @@ const LoginPage = ({ onSignUpClick, onLoginSuccess }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   // For Android emulator use 103.106.67.162, for iOS simulator use localhost
-  //const API_URL = "http://192.168.1.13:5000/api/login/login";
-  //const API_URL = "http://192.168.1.13:5000/api/login/login";
-  const API_URL = "http://192.168.1.13:5000/api/login/login";
+  //const API_URL = "http://10.0.2.2:5000/api/login/login";
+  const API_URL = "http://192.168.1.12:5000/api/login/login";
 
-
-  // ----------------------------------------------------- For login  ------------------------------------------------
   const handleLoginSubmit = async () => {
+    // ----------------------------------------------------- For login  ------------------------------------------------
 
     // Input validation first (moved to top)
     if (!username?.trim() || !password?.trim()) {
@@ -35,6 +33,7 @@ const LoginPage = ({ onSignUpClick, onLoginSuccess }) => {
       //setIsLoading(false);
       return;
     }
+
     setErrorMessage("");
     setIsLoading(true);
 
@@ -56,29 +55,46 @@ const LoginPage = ({ onSignUpClick, onLoginSuccess }) => {
         await AsyncStorage.multiSet([
           ["token", response.data.token],
           ["user", JSON.stringify(response.data.user)],
-        ])
+        ]);
         onLoginSuccess();
+        
       }
-    }
-    catch (error) {
+    } catch (error) {
       let errorMsg = "Login failed. Please try again.";
+
       if (error.response) {
         // Server responded with error status
         errorMsg = error.response.data.message || errorMsg;
+        // Handle specific status codes
+        if (error.response.status === 401) {
+          Alert.alert("Login Error", error.response.data.message);
+          console.log("Login Error:", error.response.data.message);
+          setErrorMessage("Invalid credentials. Please try again.");
+        }
+        else if (error.response.status === 403) {
+          Alert.alert("Login Error", error.response.data.message);
+          setErrorMessage(errorMsg); // Use the default error message for 403
+        } else {
+          setErrorMessage(errorMsg);
+        }
       } else if (error.request) {
         // Request was made but no response
         errorMsg = "Network error. Please check your internet connection.";
+        // Additional check for API_URL
+        if (!API_URL) {
+          console.log("API_URL is not defined. Please check your configuration.");
+        } else {
+          console.log("Request made but no response received. Double check the API_URL:", API_URL);
+        }
+      } else {
+        // Something happened in setting up the request
+        errorMsg = `Error: ${error.message}`;
+        console.log("Error in setting up request:", error.message);
       }
-      // ----------------------------------------------- Updated error message -------------------------
-
-      if (error.response.status === 401 || error.response.status === 403) {
-        Alert.alert("Login Error", error.response.data.message);
-      }
-      setErrorMessage(errorMsg);
+      //console.log("Code Error:", error);
     } finally {
       setIsLoading(false);
     }
-
 
   };
 

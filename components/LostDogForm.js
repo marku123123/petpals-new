@@ -47,7 +47,7 @@ const LostDogForm = ({
 
   const locationiqKey = "pk.0ee70983b8d94b132991d9b76b73102e";
   const debounceTimeout = useRef(null);
-  const NEW_POSTS_API_URL = "http://192.168.1.13:5000/api/posts/new-posts-count";
+  const NEW_POSTS_API_URL = "http://192.168.1.12:5000/api/posts/new-posts-count";
 
   useEffect(() => {
     const fetchNewPostsCount = async () => {
@@ -132,7 +132,6 @@ const LostDogForm = ({
 
   // ---------------------------------------------- Handle submit button -----------------------------------
   const handleSubmit = () => {
-
     setNameError("");
     setBreedError("");
     setSizeError("");
@@ -387,7 +386,6 @@ const LostDogForm = ({
             onChangeText={(text) => {
               setSizeError("");
               setDogSize(text);
-
             }}
           />
           {sizeError ? <Text style={styles.errorText}>{sizeError}</Text> : null}
@@ -470,18 +468,18 @@ const LostDogForm = ({
             />
           </View>
           {locationError ? (
+            // ----------------------------- input validation error message ----------------------
             <Text style={styles.errorText}>{locationError}</Text>
           ) : null}
           <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
             <Text style={styles.submitButtonText}>SUBMIT</Text>
           </TouchableOpacity>
-
           <View style={{ marginTop: 5 }}>
             {/* ------------------------------------------ addSpace --------------------------- */}
           </View>
         </ScrollView>
-        {suggestions.length > 0 && (
-          // ----------------------------------- Location suggestions API ------------------------ //
+        {location.length > 0 && suggestions.length > 0 && (
+          // ----------------------------------- Location suggestions ------------------------ //
           <View style={styles.suggestionsContainer}>
             <Text style={styles.suggestionTextTitle}>Choose location</Text>
             <FlatList
@@ -600,7 +598,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#F5F5F5",
     width: "100%",
   },
-
   imageUploadContainer: {
     marginBottom: 20,
     alignItems: 'center',     // centers image and text horizontally
@@ -663,7 +660,6 @@ const styles = StyleSheet.create({
     borderColor: "#ccc",
     borderRadius: 5,
     marginBottom: 5,
-    //backgroundColor: "#FFF",
     width: "100%",
   },
   //locationIcon: { width: 24, height: 24, marginLeft: 10, tintColor: "#333" },
@@ -680,20 +676,7 @@ const styles = StyleSheet.create({
     maxHeight: 188.5,
     zIndex: 1000,
   },
-  suggestionItem: {
-    padding: 10,
-  },
-  suggestionText: { fontSize: 14, color: "#333", },
-  suggestionTextTitle: { fontSize: 15, textAlign: "center", padding: 5, borderBottomWidth: 1, borderBottomColor: "#eee", width: "100%", color: "#808080", },
-  submitButton: {
-    backgroundColor: "#664229",
-    padding: 15,
-    borderRadius: 5,
-    alignItems: "center",
-    marginTop: 10,
-    width: "100%",
-  },
-  submitButtonText: { fontSize: 18, color: "#fff", fontWeight: "bold", },
+
   suggestionsContainer: {
     position: "absolute",
     top: 440, // Adjust based on location input position
@@ -706,6 +689,22 @@ const styles = StyleSheet.create({
     maxHeight: 150,
     zIndex: 1000, // Ensure it appears above other elements
   },
+  suggestionTextTitle: { fontSize: 15, textAlign: "center", padding: 5, borderBottomWidth: 1, borderBottomColor: "#eee", width: "100%", color: "#808080", },
+  suggestionItem: {
+    padding: 10,
+  },
+  suggestionText: { fontSize: 14, color: "#333", },
+  // ------------------------------------------------------------- 
+  submitButton: {
+    backgroundColor: "#664229",
+    padding: 15,
+    borderRadius: 5,
+    alignItems: "center",
+    marginTop: 10,
+    width: "100%",
+  },
+  submitButtonText: { fontSize: 18, color: "#fff", fontWeight: "bold", },
+
   footer: {
     flexDirection: "row",
     justifyContent: "space-around",

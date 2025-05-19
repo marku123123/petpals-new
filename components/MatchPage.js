@@ -24,12 +24,12 @@ import * as ImagePicker from "expo-image-picker";
 import md5 from "js-md5";
 
 // Define API URL constants
-const LOST_DOG_API_URL = "http://192.168.1.13:5000/api/lostdog";
-const FOUND_DOG_API_URL = "http://192.168.1.13:5000/api/founddog";
-const NEW_POSTS_API_URL = "http://192.168.1.13:5000/api/posts/new-posts-count";
-const LOST_FOUND_API_URL = "http://192.168.1.13:5000/api/lostfound";
-const BASE_API_URL = "http://192.168.1.13:5000";
-const SOCKET_URL = "http://192.168.1.13:5000";
+const LOST_DOG_API_URL = "http://192.168.1.12:5000/api/lostdog";
+const FOUND_DOG_API_URL = "http://192.168.1.12:5000/api/founddog";
+const NEW_POSTS_API_URL = "http://192.168.1.12:5000/api/posts/new-posts-count";
+const LOST_FOUND_API_URL = "http://192.168.1.12:5000/api/lostfound";
+const BASE_API_URL = "http://192.168.1.12:5000";
+const SOCKET_URL = "http://192.168.1.12:5000";
 
 const decodeJWT = (token) => {
   try {

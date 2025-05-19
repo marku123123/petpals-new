@@ -26,11 +26,11 @@ const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     origin: [
-      "http://192.168.1.13:3000",
-      "http://192.168.1.13:8081",
-      "http://192.168.1.13:8080",
-      "http://192.168.1.13:8081",
-      "http://192.168.1.13:5000", // Add this for emulator
+      "http://192.168.1.12:3000",
+      "http://192.168.1.12:8081",
+      "http://192.168.1.12:8080",
+      "http://192.168.1.12:8081",
+      "http://192.168.1.12:5000", // Add this for emulator
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
@@ -47,11 +47,11 @@ app.use(fileUpload());
 const corsOptions = {
   origin: (origin, callback) => {
     const allowedOrigins = [
-      "http://192.168.1.13:3000",
-      "http://192.168.1.13:8081",
-      "http://192.168.1.13:8080",
-      "http://192.168.1.13:8081",
-      "http://192.168.1.13:5000", // Add this for emulator
+      "http://192.168.1.12:3000",
+      "http://192.168.1.12:8081",
+      "http://192.168.1.12:8080",
+      "http://192.168.1.12:8081",
+      "http://192.168.1.12:5000", // Add this for emulator
     ];
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
@@ -117,7 +117,6 @@ app.use("/api/lostfound", lostAndFoundMatchedDogRoutes);
 
 io.on("connection", (socket) => {
   console.log("A user connected to 5000:", socket.id);
-
   socket.on("send_forum_message", async (messageData) => {
     console.log("Received forum message on 5000:", messageData);
     try {

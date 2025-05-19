@@ -18,7 +18,7 @@ import useChatCount from "./hooks/useChatCount";
 import NotificationModal from "./NotificationModal";
 
 const SERVER_URL =
-  Platform.OS === "android" ? "http://192.168.1.13:5000" : "http://localhost:5000";
+  Platform.OS === "android" ? "http://192.168.1.12:5000" : "http://localhost:5000";
 
 const ChatForum = ({
   onNavigateToHome,
@@ -173,7 +173,7 @@ const ChatForum = ({
     else if (tab === "HomePageMatched") onNavigateToMatchedPage?.();
   };
 
-  const handleMessageClick = () => {};
+  const handleMessageClick = () => { };
   const handleNotificationClick = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
@@ -466,7 +466,7 @@ const styles = StyleSheet.create({
   },
   menuText: { fontSize: 18, color: "#000" },
   navBar: {
-    // backgroundColor: "#664229",
+    backgroundColor: "#664229",
     paddingVertical: 10,
     paddingHorizontal: 10,
     // borderBottomWidth: 1,
@@ -570,6 +570,7 @@ const styles = StyleSheet.create({
     color: "#000",
     lineHeight: 20,
   },
+  // -------------- timestamp style --------------
   messageTimestamp: {
     fontSize: 12,
     color: "#666",

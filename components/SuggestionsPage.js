@@ -16,7 +16,7 @@ import useChatCount from "./hooks/useChatCount";
 import NotificationModal from "./NotificationModal";
 
 // Define API URL constants
-const BASE_URL = "http://192.168.1.13:5000";
+const BASE_URL = "http://192.168.1.12:5000";
 const NEW_POSTS_API_URL = `${BASE_URL}/api/posts/new-posts-count`;
 const SUGGESTIONS_API_URL = `${BASE_URL}/api/suggestions`;
 

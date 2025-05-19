@@ -27,7 +27,7 @@ const FoundDogForm = ({
   const [menuOpen, setMenuOpen] = useState(false);
   const [dogBreed, setDogBreed] = useState("");
   const [dogSize, setDogSize] = useState("");
-  const [otherDetails, setAdditionalDetails] = useState("");
+  const [additionalDetails, setAdditionalDetails] = useState("");
   const [gender, setGender] = useState("");
   const [location, setLocation] = useState("");
   const [suggestions, setSuggestions] = useState([]);
@@ -45,7 +45,7 @@ const FoundDogForm = ({
   const locationiqKey = "pk.0ee70983b8d94b132991d9b76b73102e";
   const debounceTimeout = useRef(null);
 
-  const NEW_POSTS_API_URL = "http://192.168.1.13:5000/api/posts/new-posts-count";
+  const NEW_POSTS_API_URL = "http://192.168.1.12:5000/api/posts/new-posts-count";
 
   useEffect(() => {
     const fetchNewPostsCount = async () => {
@@ -121,35 +121,6 @@ const FoundDogForm = ({
     }
   };
 
-  /*
-  const handleSubmit = () => {
-    setImageError("");
-    setGenderError("");
-
-    if (!dogBreed) {
-      Alert.alert("Error", "Please enter the dog's breed!");
-      return;
-    }
-    if (!dogSize) {
-      Alert.alert("Error", "Please enter the dog's size!");
-      return;
-    }
-    if (!gender) {
-      setGenderError("Please select a gender!");
-      return;
-    }
-    if (!location) {
-      Alert.alert(
-        "Error",
-        "Please enter the location where the dog was found!"
-      );
-      return;
-    }
-    if (!selectedImage) {
-      setImageError("Please upload a picture!");
-      return;
-    }
-      */
   const handleSubmit = () => {
     setBreedError("");
     setSizeError("");
@@ -157,36 +128,36 @@ const FoundDogForm = ({
     setLocationError("");
     setImageError("");
 
-    if (!dogBreed) {
-      setBreedError("Please enter your dog's breed.");
-      return;
-    }
-    if (!dogSize) {
-      setSizeError("Please enter your dog's size.");
-      return;
-    }
-    if (!gender) {
-      setGenderError("Please select your dog's gender.");
-      return;
-    }
-    if (!location) {
-      setLocationError("Please enter where your dog was last seen.");
-      return;
-    }
-    if (!selectedImage) {
-      setImageError("Please upload a picture!");
-      return;
-    }
 
+    if (!selectedImage || !dogBreed || !dogSize || !gender || !location) {
+      if (!selectedImage) {
+        setImageError("Please upload a picture of your dog.");
+      }
+      if (!dogBreed) {
+        setBreedError("Please enter dog's breed.");
+      }
+      if (!dogSize) {
+        setSizeError("Please enter dog's size.");
+      }
+      if (!gender) {
+        setGenderError("Please select dog's gender.");
+        //console.log("Gender not selected.");
+      } else {
+        //console.log("Gender selected:", gender);
+      }
+      if (!location) {
+        setLocationError("Please enter where the dog was last found.");
+      }
+      return;
+    }
     const formData = {
       breed: dogBreed,
       size: dogSize,
-      details: otherDetails || "",
+      details: additionalDetails || "",
       gender,
       location,
       image: selectedImage,
     };
-
     console.log("Form Data:", formData);
 
     if (onNavigateToFoundDogFormConfirmation) {
@@ -309,7 +280,7 @@ const FoundDogForm = ({
       <View style={styles.formWrapper}>
         {/* -------------------------------------------------------------------------- Main wrapper ----------------------------------------------------- */}
         <ScrollView contentContainerStyle={styles.formContainer}>
-          {/* ------------------------------------------------------------ Back button ------------------------------------------------ */}
+          {/* ------------------------------------------------------------ Back button ------------------------------------------------
           <TouchableOpacity
             style={styles.arrowBtn}
             onPress={() => {
@@ -325,17 +296,22 @@ const FoundDogForm = ({
                 }
               }
             }}
-          >
+          > 
             <Image
               source={require("../assets/images/back-arrow.png")}
               style={styles.arrowIcon}
             />
             <Text style={styles.mainTitle}>Back</Text>
           </TouchableOpacity>
-          {/* --------------------------------------------------------------------------------------------------------------------------- */}
+           */}
           <View style={styles.imageUploadContainer}>
             <TouchableOpacity onPress={handleImageUpload}>
               <View style={styles.uploadContent}>
+                {selectedImage ? (
+                  <Text style={styles.menuTexts}>Selected image:</Text>
+                ) : (
+                  <Text style={styles.menuTexts}>Upload image of your dog</Text>
+                )}
                 <Image
                   source={
                     selectedImage
@@ -347,34 +323,41 @@ const FoundDogForm = ({
                   }
                   resizeMode="cover"
                 />
-                <Text style={styles.menuTexts}>Upload picture of your dog.</Text>
               </View>
             </TouchableOpacity>
             {imageError ? (
               <Text style={styles.errorText}>{imageError}</Text>
             ) : null}
           </View>
-          <Text style={styles.label}>Breed of dog:</Text>
+          <Text style={styles.label}>Breed: <Text style={styles.textHints}>(Common breeds: Aspin, Shi Tzu, etc.)</Text></Text>
           <TextInput
             style={styles.input}
             placeholder="Enter dog's breed"
             value={dogBreed}
-            onChangeText={setDogBreed}
+            onChangeText={(text) => {
+              setDogBreed(text);
+              setBreedError("");
+            }}
           />
-
-          <Text style={styles.label}>Size of dog:</Text>
+          {breedError ? (
+            <Text style={styles.errorText}>{breedError}</Text>
+          ) : null}
+          <Text style={styles.label}>Size: <Text style={styles.textHints}>(Small, Medium, Huge)</Text></Text>
           <TextInput
             style={styles.input}
-            placeholder="Enter dog's size (Ex. small, medium, huge)"
+            placeholder="Enter dog's size"
             value={dogSize}
-            onChangeText={setDogSize}
+            onChangeText={(text) => {
+              setSizeError("");
+              setDogSize(text);
+            }}
           />
-
+          {sizeError ? <Text style={styles.errorText}>{sizeError}</Text> : null}
           <Text style={styles.label}>Additional details:</Text>
           <TextInput
             style={styles.input}
             placeholder="Enter addtional details (this is optional)."
-            value={otherDetails}
+            value={additionalDetails}
             onChangeText={setAdditionalDetails}
             multiline
             numberOfLines={4}
@@ -432,27 +415,30 @@ const FoundDogForm = ({
           {genderError ? (
             <Text style={styles.errorText}>{genderError}</Text>
           ) : null}
-          
           <Text style={styles.label}>Location:</Text>
           <View style={styles.locationInputContainer}>
-            <Image
-              source={require("../assets/images/location-icon.png")}
-              style={styles.locationIcon}
-            />
             <TextInput
-              style={styles.locationInput}
-              placeholder="Enter location where dog was found"
+              style={styles.input}
+              placeholder="Enter dog's last found location"
               value={location}
               onChangeText={handleLocationChange}
             />
           </View>
+          {locationError ? (
+            // ----------------------------- input validation error message ----------------------
+            <Text style={styles.errorText}>{locationError}</Text>
+          ) : null}
           <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
             <Text style={styles.submitButtonText}>SUBMIT</Text>
           </TouchableOpacity>
+          <View style={{ marginTop: 5 }}>
+            {/* ------------------------------------------ addSpace --------------------------- */}
+          </View>
         </ScrollView>
-        {suggestions.length > 0 && (
-          // ------------------------------ Autocomplete Location Suggestions Dropdown  -------------------//
+        {location.length > 0 && suggestions.length > 0 && (
+          // ----------------------------------- Location suggestions ------------------------ //
           <View style={styles.suggestionsContainer}>
+            <Text style={styles.suggestionTextTitle}>Choose location</Text>
             <FlatList
               data={suggestions}
               keyExtractor={(item) => item.data.osm_id.toString()}
@@ -467,7 +453,6 @@ const FoundDogForm = ({
             />
           </View>
         )}
-
       </View>
 
       <View style={styles.footer}>
@@ -546,7 +531,11 @@ const styles = StyleSheet.create({
     borderBottomColor: "#ccc",
   },
   menuText: { fontSize: 16, color: "#000" },
-  menuTexts: { fontSize: 16, color: "#000", marginLeft: -20 },
+  menuTexts: {
+    alignContent: "center",
+    textAlign: 'center',
+    marginBottom: '5',
+  },
   navBar: {
     flexDirection: "row",
     justifyContent: "space-around",
@@ -579,11 +568,16 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   // ---------------------------------------------------------------------------------------
-  uploadContent: {
-    alignItems: 'center',
-    justifyContent: 'center',
+
+  imageUploadContainer: {
+    marginBottom: 20,
+    alignItems: 'center',     // centers image and text horizontally
   },
-  imageUploadContainer: { alignItems: "center", marginBottom: 30 },
+  uploadContent: {
+    flexDirection: 'column', // Ensure items are stacked vertically
+    alignItems: 'center',     // Center items horizontally
+    justifyContent: 'center',  // Center items vertically
+  },
   imageUploadIcon: {
     width: 60,
     height: 60,
@@ -593,22 +587,23 @@ const styles = StyleSheet.create({
   },
   selectedImageIcon: {
     width: 200,
-    height: 300,
+    height: 200,
     borderWidth: 1,
     borderColor: "#ccc",
     borderRadius: 5,
   },
-  label: { fontSize: 16, marginBottom: 10, color: "#333" },
+  label: { fontSize: 15, marginBottom: 8, color: "#333" },
   input: {
     borderWidth: 1,
     borderColor: "#ccc",
     borderRadius: 5,
     padding: 10,
     marginBottom: 5,
-    fontSize: 16,
+    fontSize: 14.5,
     backgroundColor: "#FFF",
     width: "100%",
   },
+  textHints: { fontSize: 14.5, marginBottom: 8, color: "#808080" },
   genderContainer: {
     flexDirection: "row",
     marginBottom: 10,
@@ -633,18 +628,16 @@ const styles = StyleSheet.create({
   locationInputContainer: {
     flexDirection: "row",
     alignItems: "center",
-    borderWidth: 1,
     borderColor: "#ccc",
     borderRadius: 5,
-    marginBottom: 20,
-    backgroundColor: "#FFF",
+    marginBottom: 5,
     width: "100%",
   },
   locationIcon: { width: 24, height: 24, marginLeft: 10, tintColor: "#333" },
-  locationInput: { flex: 1, padding: 10, fontSize: 16 },
+  // -------------------------------Suggestions container ------------------------- //
   suggestionsContainer: {
     position: "absolute",
-    top: 590, // Adjust based on location input position
+    top: 320, // Adjust based on location input position
     left: 15,
     right: 15,
     backgroundColor: "#FFF",
@@ -654,21 +647,21 @@ const styles = StyleSheet.create({
     maxHeight: 150,
     zIndex: 1000, // Ensure it appears above other elements
   },
+  suggestionTextTitle: { fontSize: 15, textAlign: "center", padding: 5, borderBottomWidth: 1, borderBottomColor: "#eee", width: "100%", color: "#808080", },
   suggestionItem: {
     padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#eee",
   },
-  suggestionText: { fontSize: 14, color: "#333" },
+  suggestionText: { fontSize: 14, color: "#333", },
+  // -------------------------------------------------------------------------------------
   submitButton: {
     backgroundColor: "#664229",
     padding: 15,
     borderRadius: 5,
     alignItems: "center",
-    margin: 0,
+    marginTop: 10,
     width: "100%",
   },
-  submitButtonText: { fontSize: 18, color: "#fff", fontWeight: "bold" },
+  submitButtonText: { fontSize: 18, color: "#fff", fontWeight: "bold", },
   footer: {
     flexDirection: "row",
     justifyContent: "space-around",

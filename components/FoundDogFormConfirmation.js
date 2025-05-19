@@ -47,8 +47,8 @@ const FoundDogFormConfirmation = ({
   const newChatsCount = useChatCount();
 
   // Define API URL constants
-  const NEW_POSTS_API_URL = "http://192.168.1.13:5000/api/posts/new-posts-count";
-  const FOUND_DOG_API_URL = "http://192.168.1.13:5000/api/founddog";
+  const NEW_POSTS_API_URL = "http://192.168.1.12:5000/api/posts/new-posts-count";
+  const FOUND_DOG_API_URL = "http://192.168.1.12:5000/api/founddog";
 
   useEffect(() => {
     const fetchNewPostsCount = async () => {
@@ -194,6 +194,7 @@ const FoundDogFormConfirmation = ({
           console.error("Navigation functions are not defined!");
         }
         Alert.alert("Success", "Found dog reported successfully!");
+        console.log("Success", "Found dog reported successfully!");
       }
     } catch (error) {
       console.error("Detailed error reporting found dog:", {
@@ -459,7 +460,7 @@ const FoundDogFormConfirmation = ({
       >
         <View style={styles.modalOverlay}>
           <View style={styles.confirmationModal}>
-            <Text style={styles.modalText}>Do you want to report this?</Text>
+            <Text style={styles.modalText}>Do you want to report this as found?</Text>
             <View style={styles.modalButtonContainer}>
               <TouchableOpacity
                 style={[

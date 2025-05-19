@@ -11,7 +11,6 @@ router.post("/login", async (req, res) => {
   try {
     // Validate input
     if (!username.trim() || !password.trim()) {
-    
       return res.status(400).json({
         success: false,
         message: "Username and password are required."
@@ -57,6 +56,7 @@ router.post("/login", async (req, res) => {
       process.env.JWT_SECRET,
       { expiresIn: '7d' }
     );
+   
 
     // Successful login response
     res.status(200).json({
@@ -70,12 +70,11 @@ router.post("/login", async (req, res) => {
         profilePic: user.profilePic
       }
     });
-
   } catch (error) {
     console.error("Login error:", error);
     res.status(500).json({
       success: false,
-      message: "An error occurred during login.",
+      message: "An error occurred during login. Try again later.",
       error: process.env.NODE_ENV === 'development' ? error.message : undefined
     });
   }
